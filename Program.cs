@@ -1,10 +1,13 @@
-﻿namespace LegendofSparta
+﻿using LegendofSparta.GameManger;
+
+namespace LegendofSparta  
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            GameManager game = new GameManager();
+            game.Run(); 
         }
     }
 }
