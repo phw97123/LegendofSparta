@@ -11,6 +11,17 @@ namespace LegendofSparta.GameManger
      internal class GameManager
      {
         Player player = new Player();
+
+        public void TextOutput(string text)
+        {
+            for(int i = 0; i< text.Length; i++  )
+            {
+                string text1 = text.Substring(i, 1); 
+                Console.Write(text1);
+                Thread.Sleep(200);
+            }
+            Console.WriteLine();
+        }
         void GameStartScene()
         {
             Console.WriteLine(@"
@@ -69,7 +80,7 @@ namespace LegendofSparta.GameManger
                 Console.WriteLine($"|{player.PlayerStatus.Name.PadLeft(padding + player.PlayerStatus.Name.Length).PadRight(totalWidth - 1)}|");
                 //-1을 한 이유는 마지막 '|' 문자를 포함하여 전체 길이에 맞게 패딩을 적용
                 Console.WriteLine("│                                 │");
-                Console.WriteLine("|"+ "Y / N".PadLeft(padding +5).PadRight(totalWidth-1)+"|");
+                Console.WriteLine("|              Y / N              |");
                 Console.WriteLine("│                                 │");
                 Console.WriteLine("└─────────────────────────────────┘");
                 Console.Write(">> "); 
@@ -78,9 +89,12 @@ namespace LegendofSparta.GameManger
                 if (answer == "y" || answer == "y")
                 {
                     Console.Clear();
-                    Console.WriteLine("캐릭터 생성 완료...");
-                    Thread.Sleep(1000);
-                    Console.WriteLine("마을로 들어가는 중...");
+                    //Console.WriteLine("캐릭터 생성 완료...");
+                    TextOutput("캐릭터 생성 중..."); 
+                    Thread.Sleep(500);
+                    TextOutput("캐릭터 생성 완료 !");
+                    //Console.WriteLine("마을로 들어가는 중...");
+                    TextOutput("마을로 들어가는 중...");
                     Thread.Sleep(1000);
                     VillageScene(); 
                     break; 
@@ -96,9 +110,7 @@ namespace LegendofSparta.GameManger
                     Thread.Sleep(500);
                 }
             }
-            
-
-            /*
+           /*
            PadLeft,Right() : 문자열을 지정한 길이로 패딩한다
            */
         }
@@ -125,24 +137,25 @@ namespace LegendofSparta.GameManger
 
                 string answer = Console.ReadLine();
                 int select;
-                bool isValid = int.TryParse(answer, out select);
+                bool bValid = int.TryParse(answer, out select);
 
-                if(isValid)
+                if(bValid)
                 {
                     switch (select)
                     {
                         case 1:
                             Console.WriteLine("상태창");
-                            player.PlayerStatus.ShowStatus();
+                            player.ShowStatus();
                             break;
 
                         case 2:
-                            Console.WriteLine("인벤토리"); 
+                            Console.WriteLine("인벤토리");
+                            player.ShowInventory(); 
                             break;
 
                         default:
                             Console.WriteLine("잘못된 입력입니다.");
-                            isValid = false;
+                            bValid = false;
                             Thread.Sleep(500);
                             break; 
                     }
@@ -159,6 +172,8 @@ namespace LegendofSparta.GameManger
         {
             //GameStartScene();
             CreateCharacter(); 
+            //player.ShowInventory(); 
+            //player.PlayerStatus.ShowStatus(); 
         }
      }
 }
