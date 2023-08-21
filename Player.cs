@@ -9,6 +9,7 @@ using System.Globalization;
 using System.ComponentModel.Design;
 using System.Reflection.Emit;
 using System.Xml.Linq;
+using System.ComponentModel;
 
 namespace LegendofSparta.PlayerClass
 {
@@ -137,12 +138,12 @@ namespace LegendofSparta.PlayerClass
 
                 for (int i = 0; i < Inventory.Count; i++)
                 {
-                    if (Inventory[i].IsEquip) //아이템 장착했다면 
+                    if (equipWeapon == Inventory[i] || equipArmor == Inventory[i] || equipHead == Inventory[i]) //아이템 장착했다면 
                     {
                         switch (Inventory[i].StatsType)
                         {
                             case STATSTYPE.Atk:
-                                equipAtk =  "\x1b[32m"+ PlayerStatus.Atk + "\x1b[0m" + "\x1b[0m";
+                                equipAtk = "\x1b[32m"+ PlayerStatus.Atk + "\x1b[0m" + "\x1b[0m";
                                 break;
                             case STATSTYPE.Def:
                                 equipDef = "\x1b[32m" + PlayerStatus.Def+ "\x1b[0m" + "\x1b[0m";
@@ -151,15 +152,18 @@ namespace LegendofSparta.PlayerClass
                     }
                     else //장착하지 않았다면  
                     {
-                        //방어력을 올려주는 아이템은 2가지로 장착하지 않은 방어력 아이템 찾기
-                        for (int j = 0; j < Inventory.Count; j++) 
+                        if(equipWeapon == null)
                         {
-                            if (!Inventory[j].IsEquip && Inventory[j].StatsType == STATSTYPE.Def)
+                            switch (Inventory[i].StatsType)
                             {
-                                equipDef = PlayerStatus.Def.ToString();
+                                case STATSTYPE.Atk:
+                                    equipAtk = PlayerStatus.Atk.ToString();
+                                    break;
+                                case STATSTYPE.Def:
+                                    equipDef = PlayerStatus.Def.ToString();
+                                    break;
                             }
                         }
-                        equipAtk = PlayerStatus.Atk.ToString();
                         
                     }
                 }
