@@ -171,8 +171,8 @@ namespace LegendofSparta.GameManger
         public void Run()
         {
             //GameStartScene();
-            CreateCharacter(); 
-            //player.ShowInventory(); 
+            //CreateCharacter(); 
+            player.ShowInventory(); 
             //player.PlayerStatus.ShowStatus(); 
         }
      }

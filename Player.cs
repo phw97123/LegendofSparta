@@ -16,10 +16,13 @@ namespace LegendofSparta.PlayerClass
      {
         public Status PlayerStatus;
         public List<Item> Inventory;
+
+        ITEMSORT itemsort; //아이템 정렬방식 enum
         public Player() 
         { 
             PlayerStatus = new Status();
 
+            //기본 스탯
             PlayerStatus.Level = 1;
             PlayerStatus.Hp = 100; 
             PlayerStatus.MaxHp = 200;
@@ -31,15 +34,17 @@ namespace LegendofSparta.PlayerClass
 
             Inventory = new List<Item>();
 
-            Item oldHead = new Item(ITEMTYPE.Head, "낡은투구",STATSTYPE.Def,"3", "세월이 느껴지는 투구", 300,true);
+            //초기 아이템
+            Item oldHead = new Item(ITEMTYPE.Head, "다낡은투구",STATSTYPE.Def,"3", "세월이 느껴지는 투구", 300,true);
             Inventory.Add(oldHead);
             
-            Item oldArmor = new Item(ITEMTYPE.Armor, "낡은갑옷",STATSTYPE.Def,"3", "세월이 느껴지는 갑옷", 300,true);
+            Item oldArmor = new Item(ITEMTYPE.Armor, "가낡은갑옷",STATSTYPE.Def,"5", "세월이 느껴지는 갑옷", 300,true);
             Inventory.Add(oldArmor);
 
-            Item oldSword = new Item(ITEMTYPE.Weapon, "낡은검", STATSTYPE.Atk,"3", "세월이 느껴지는 검", 300,true);
+            Item oldSword = new Item(ITEMTYPE.Weapon, "나낡은검", STATSTYPE.Atk,"3", "세월이 느껴지는 검", 300,true);
             Inventory.Add(oldSword);
 
+            //초기 아이템 능력치 추가
             for(int i = 0; i<Inventory.Count; i++)
             {
                 if (Inventory[i].IsEquip)
@@ -58,11 +63,14 @@ namespace LegendofSparta.PlayerClass
             }
         }
 
+        //상태창
         public void ShowStatus()
         {
             while (true)
             {
                 Console.Clear();
+
+                //HP바 % 계산 
                 int hpColorPersent = (int)Math.Round(PlayerStatus.Hp / (double)PlayerStatus.MaxHp * 10);
                 int hpRemove = 10 - (hpColorPersent + 1);
 
@@ -74,6 +82,7 @@ namespace LegendofSparta.PlayerClass
                 string hpColor = "\x1b[41m" + "          " + "\x1b[0m" + "\x1b[0m";
                 hpColor = hpColor.Remove(6, hpRemove + 1);
 
+                //MP바 % 계산
                 int mpColorPersent = (int)Math.Round(PlayerStatus.Mp / (double)PlayerStatus.MaxMp * 10);
                 int mpRemove = 10 - (mpColorPersent + 1);
 
@@ -85,11 +94,13 @@ namespace LegendofSparta.PlayerClass
                 string mpColor = "\x1b[44m" + "          " + "\x1b[0m" + "\x1b[0m";
                 mpColor = mpColor.Remove(6, mpRemove + 1);
 
+                //아이템의 효과로 능력치가 올라가면 능력치 츨력 색 변경  
                 string equipAtk = ""; 
                 string equipDef = ""; 
+
                 for (int i = 0; i < Inventory.Count; i++)
                 {
-                    if (Inventory[i].IsEquip)
+                    if (Inventory[i].IsEquip) //아이템 장착했다면 
                     {
                         switch (Inventory[i].StatsType)
                         {
@@ -101,9 +112,10 @@ namespace LegendofSparta.PlayerClass
                                 break;
                         }
                     }
-                    else
+                    else //장착하지 않았다면  
                     {
-                        for(int j = 0; j < Inventory.Count; j++)
+                        //방어력을 올려주는 아이템은 2가지로 장착하지 않은 방어력 아이템 찾기
+                        for (int j = 0; j < Inventory.Count; j++) 
                         {
                             if (!Inventory[j].IsEquip && Inventory[j].StatsType == STATSTYPE.Def)
                             {
@@ -148,12 +160,36 @@ namespace LegendofSparta.PlayerClass
             }
         }
 
+        //인벤토리 
         public void ShowInventory()
         {
-            bool bEquipMode = false; 
-           
-            while(true)
+            int totalWidth = 43; //전체 문자열 너비 
+          
+            //장착모드 관리
+            bool bEquipMode = false;
+            //아이템 정렬 관리 
+            bool bItemSort = false;
+            //모드 관리 문자열
+            string modeChage = "1.장착모드 2.아이템 정렬";  
+
+            while (true)
             {
+                switch (itemsort) //인벤토리 정렬
+                {
+                    case ITEMSORT.Name:
+                        Inventory = Inventory.OrderBy(item=>item.Name).ToList();
+                        break; 
+                    case ITEMSORT.Equip:
+                        Inventory = Inventory.OrderBy(item=>(bool)item.IsEquip ? 0:1).ToList();
+                        break;
+                    case ITEMSORT.Atk:
+                        Inventory = Inventory.OrderBy(item => item.StatsType==STATSTYPE.Atk).ToList(); 
+                        break;
+                    case ITEMSORT.Def:
+                        Inventory = Inventory.OrderBy(item => item.StatsType == STATSTYPE.Def).ToList();
+                        break;
+                }
+
                 Console.Clear(); 
                 Console.WriteLine("┌─────────────────────────────────────────┐");
                 Console.WriteLine("│                                   0.닫기│");
@@ -171,7 +207,7 @@ namespace LegendofSparta.PlayerClass
                 }
 
 
-                Console.WriteLine($"│   {(bEquipMode ? "          ":"1.장착관리")}                            │");
+                Console.WriteLine($"│ {modeChage,-31}│");
                 Console.WriteLine("│                                         │");
                 Console.WriteLine("└─────────────────────────────────────────┘");
                 Console.Write(">> "); 
@@ -180,27 +216,46 @@ namespace LegendofSparta.PlayerClass
                 int select;
                 bool bVaild = int.TryParse(answer, out select);
 
+                //유효한 입력일 때 
                 if(bVaild)
                 {
-                    if (bEquipMode == false)
+                    //장착모드가 아닐 때
+                    if (bEquipMode == false && bItemSort == false)
                     {
                         if (select == 0)
+                        {
                             break;
+                        }
                         else if (select == 1)
                         {
                             bEquipMode = true;
+                            modeChage = " ";
                         }
+                        else if(select == 2)
+                        {
+                            bItemSort = true;
+                            modeChage = "1.이름 2.장착순 3. 공격력 4.방어력";
+                        }
+                        else
+                        {
+                            Console.WriteLine("잘못 입력하셨습니다.");
+                            Thread.Sleep(500);
+                        }
+                        
                     }
-                    else
+                    else if(bEquipMode == true && !bItemSort) //장착모드일 때 
                     {
+                       
+                        //아이템 선택
                         if(select != 0  && Inventory.Count >= select)
                         {
                             //Inventory[select-1].IsEquip = Inventory[select-1].IsEquip ? false : true;
-
+                            //아이템 장착중이라면 장착 해제
                             if (Inventory[select-1].IsEquip)
                             {
                                 switch (Inventory[select-1].StatsType)
                                 {
+                                    //아이템 장착 후 능력치 조절
                                     case STATSTYPE.Atk:
                                         PlayerStatus.Atk -= int.Parse(Inventory[select-1].Stats);
                                         break;
@@ -210,8 +265,9 @@ namespace LegendofSparta.PlayerClass
                                 }
                                 Inventory[select-1].IsEquip = false;
                             }
-                            else
+                            else //장착완료
                             {
+                                //아이템 장착 후 능력치 조절  
                                 switch (Inventory[select - 1].StatsType)
                                 {
                                     case STATSTYPE.Atk:
@@ -223,12 +279,11 @@ namespace LegendofSparta.PlayerClass
                                 }
                                 Inventory[select - 1].IsEquip = true;
                             }
-
-
                         }
-                        else if(select == 0)
+                        else if(select == 0) //장착모드 해제
                         {
                             bEquipMode = false;
+                            modeChage = "1.장착모드 2.아이템 정렬";
                         }
                         else
                         {
@@ -236,8 +291,55 @@ namespace LegendofSparta.PlayerClass
                             Thread.Sleep(500);
                         }
                     }
+                    else if(bItemSort == true && bEquipMode == false) //아이템 정렬모드
+                    {
+                        if(select >0 && select<5) //인벤토리 정렬 설정
+                        {
+                            switch(select)
+                            {
+                                case 1:
+                                    itemsort = ITEMSORT.Name; 
+                                    Console.WriteLine("이름순.");
+                                    Thread.Sleep(500);
+                                    break; 
+                                case 2:
+                                    itemsort = ITEMSORT.Equip;
+                                    Console.WriteLine("장착순"); 
+                                    Thread.Sleep(500);
+                                    break;
+                                case 3:
+                                    itemsort = ITEMSORT.Atk;
+                                    Console.WriteLine("공격력");
+                                    Thread.Sleep(500);
+                                    break ; 
+                                case 4:
+                                    itemsort = ITEMSORT.Def;
+                                    Console.WriteLine("방어력");
+                                    Thread.Sleep(500);
+                                    break;
+
+                            }
+                        }
+                        else if(select == 0)
+                        {
+                            bItemSort = false;
+                            modeChage = "1.장착모드 2.아이템 정렬";
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("잘못 입력하셨습니다.");
+                        Thread.Sleep(500);
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("잘못 입력하셨습니다.");
+                    Thread.Sleep(500);
                 }
             }
+            
+
 
             /* 생각하기
              제일 긴 문자열의 길이에 맞춰 출력하고 한글의 크기랑 같은 띄어쓰기로 빈공간을 채움      

@@ -15,6 +15,11 @@ namespace LegendofSparta.ItemClass
     {
         Atk,Def
     }
+
+    public enum ITEMSORT
+    {
+        Name,Equip,Atk,Def,Price
+    }
     internal class Item
     {
         public  ITEMTYPE ItemType { get; set; }
