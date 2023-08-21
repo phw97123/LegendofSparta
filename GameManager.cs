@@ -15,14 +15,15 @@ namespace LegendofSparta.GameManger
 
         public void TextOutput(string text)
         {
-            for(int i = 0; i< text.Length; i++  )
+            for (int i = 0; i < text.Length; i++)
             {
-                string text1 = text.Substring(i, 1); 
+                string text1 = text.Substring(i, 1);
                 Console.Write(text1);
                 Thread.Sleep(50);
             }
             Console.WriteLine();
         }
+
         void GameStartScene()
         {
             Console.WriteLine(@"
@@ -46,6 +47,8 @@ namespace LegendofSparta.GameManger
 
             Console.WriteLine("                      아무 키나 눌러서 실행     ");
             Console.ReadKey();
+
+            CreateCharacter(); 
             
         }
 
@@ -58,6 +61,15 @@ namespace LegendofSparta.GameManger
             Console.WriteLine("│    이름:                        │");
             Console.WriteLine("│                                 │");
             Console.WriteLine("└─────────────────────────────────┘");
+
+            //string playerNameSet = "플레이어의 이름을 정해주세요.\n" +
+            //                       "┌─────────────────────────────────┐\n" +
+            //                       "│                                 │\n" +
+            //                       "│    이름:                        │\n" +
+            //                       "│                                 │\n" +
+            //                       "└─────────────────────────────────┘\n";
+
+            //CenterWriteLine(playerNameSet);
 
             Console.SetCursorPosition(11, Console.CursorTop - 3);
 
@@ -177,9 +189,9 @@ namespace LegendofSparta.GameManger
         public void Run()
         {
             //GameStartScene();
-            CreateCharacter(); 
-            //player.ShowInventory(); 
-            //player.PlayerStatus.ShowStatus(); 
+            //CreateCharacter(); 
+            player.ShowInventory(); 
+            //player.ShowStatus(); 
             
         }
      }

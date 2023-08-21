@@ -10,6 +10,7 @@ using System.ComponentModel.Design;
 using System.Reflection.Emit;
 using System.Xml.Linq;
 using System.ComponentModel;
+using System.Collections;
 
 namespace LegendofSparta.PlayerClass
 {
@@ -17,6 +18,7 @@ namespace LegendofSparta.PlayerClass
      {
         public Status PlayerStatus;
         public List<Item> Inventory;
+        public int itemLimit = 5; 
 
         public Item? equipWeapon { get; set; }
         public Item? equipHead { get; set; }
@@ -168,25 +170,24 @@ namespace LegendofSparta.PlayerClass
                     }
                 }
 
-                
+                //totalWidth = 35; 
 
                 string format = "┌─────────────────────────────────┐\n" +
-                             "│                           0.닫기│\n" +
-                             "│            [상태창]             │\n" +
-                             "│                                 │\n" +
-                             "│  {0,-22}Lv.{1,3:D2}   │\n" +
-                             "│ =============================== │\n" +
-                             "│  HP {2,-3}/{3,-13}MP {4,3}/{5,-4}│\n" +
-                             "│  {9,-32} {10,-24}│\n" +
-                             "│ =============================== │\n" +
-                             "│  공격력 {6,-24}│\n" +
-                             "│  방어력 {7,-24}│\n" +
-                             "│   Gold  {8,-24}|\n" +
-                             "│                                 │\n" +
-                             "└─────────────────────────────────┘";
+                                "│                           0.닫기│\n" +
+                                "│            [상태창]             │\n" +
+                                "│                                 │\n" +
+                                "│  {0,-22}Lv.{1,3:D2}   │\n" +
+                                "│ =============================== │\n" +
+                                "│  HP {2,-3}/{3,-13}MP {4,3}/{5,-4}│\n" +
+                                "│  {9,-32} {10,-24}│\n" +
+                                "│ =============================== │\n" +
+                                "│  공격력 {6,-24}│\n" +
+                                "│  방어력 {7,-24}│\n" +
+                                "│   Gold  {8,-24}|\n" +
+                                "│                                 │\n" +
+                                "└─────────────────────────────────┘";
 
-                Console.WriteLine(string.Format(format,PlayerStatus.Name, PlayerStatus.Level, PlayerStatus.Hp, PlayerStatus.MaxHp, PlayerStatus.Mp, PlayerStatus.MaxMp, equipAtk, equipDef, PlayerStatus.Gold + "G", hpColor, mpColor));
-
+                Console.WriteLine(string.Format(format, PlayerStatus.Name, PlayerStatus.Level, PlayerStatus.Hp, PlayerStatus.MaxHp, PlayerStatus.Mp, PlayerStatus.MaxMp, equipAtk, equipDef, PlayerStatus.Gold + "G", hpColor, mpColor));
 
                 /*
                 *문자열희 형식을 유지하면서 특정 부분만 변경
@@ -214,7 +215,7 @@ namespace LegendofSparta.PlayerClass
             //모드 관리 문자열
             string modeChage = "1.장착모드 2.아이템 정렬";
 
-            string equipStr = " "; 
+            string equipStr = ""; 
 
             while (true)
             {
@@ -244,62 +245,75 @@ namespace LegendofSparta.PlayerClass
                  */
 
                 Console.Clear();
-                Console.WriteLine("┌─────────────────────────────────────────┐");
-                Console.WriteLine("│                                   0.닫기│");
-                Console.WriteLine("│             [인벤토리]                  │");
-                Console.WriteLine("│                                         │");
 
-                //Console.WriteLine("┌──────────────────────────────────────────────────────┐");
-                //Console.WriteLine("│                     [인벤토리]                       │");
-                //Console.WriteLine("│                                                      │");
-                //Console.WriteLine("│ ─────────────────────────────────────────────────────│");
+                string statsDisplay ="┌─────────────────────────────────────────────────────┐\n"+
+                                     "│                     [인벤토리]                0.닫기│\n"+
+                                     "│                                                     │\n"+
+                                     "│                                                     │\n" +
+                                     "│                                                     │\n" +
+                                     "│                                                     │\n" +
+                                     "│                                                     │\n" +
+                                     "│                                                     │\n" +
+                                     "│                                                     │\n" +
+                                     "│                                                     │\n" +
+                                     "│                                                     │\n" +
+                                     "│                                                     │\n" +
+                                     "│                                                     │\n" +
+                                     "│                                                     │\n" +
+                                     "│                                                     │\n" +
+                                     "│                                                     │\n" +
+                                     "│                                                     │\n" +
+                                     "│                                                     │\n" +
+                                     "│                                                     │\n" +
+                                     "│                                                     │\n" +
+                                     "│                                                     │\n" +
+                                     "│                                                     │\n" +
+                                     "│                                                     │\n" +
+                                     "│                                                     │\n" +
+                                     "│                                                     │\n" +
+                                     "└─────────────────────────────────────────────────────┘\n";
 
-                for (int i = 0; i < Inventory.Count; i++)
+                Console.WriteLine(statsDisplay);
+               
+                for (int i = 0; i < itemLimit; i++)
                 {
-                    if (Inventory[i].IsEquip) //장착중
+                    if(i<Inventory.Count)
                     {
-                        if (Inventory[i] == equipWeapon || Inventory[i] == equipHead || Inventory[i] == equipArmor) //장착되어있는 아이템이 같으면
+                        if (Inventory[i].IsEquip) //장착중
                         {
-                            equipStr = "[E]"; 
-                        } 
+                            if (Inventory[i] == equipWeapon || Inventory[i] == equipHead || Inventory[i] == equipArmor) //장착되어있는 아이템이 같으면
+                            {
+                                equipStr = "[E]";
+                            }
+                            else
+                            {
+                                equipStr = "";
+                                Inventory[i].IsEquip = false;
+                            }
+                        }
                         else
                         {
-                            equipStr = " ";
-                            Inventory[i].IsEquip = false;
+                            equipStr = "";
                         }
+
+                        Console.SetCursorPosition(3, 3 + 4 * i);
+                        string firstLine = $"{equipStr} {(bEquipMode ? (i + 1) + "." : "")}{Inventory[i].Name}{Inventory[i].StatsType,24} +{Inventory[i].Stats} ";
+                        Console.WriteLine(string.Format(firstLine));
+                        Console.SetCursorPosition(3, 4 + 4 * i);
+                        Console.WriteLine($"\x1b[2;37m {Inventory[i].Description}\x1b[0m");
+                        Console.SetCursorPosition(3, 5 + 4 * i);
+                        Console.WriteLine("-----------------------------------------------");
                     }
                     else
                     {
-                        equipStr = " "; 
+                        Console.SetCursorPosition(3, 5 + 4 * i);
+                        Console.WriteLine("-----------------------------------------------");
                     }
-
-                    string firstLine = $"| {equipStr} {(bEquipMode ? (i + 1) + "." : " ")}{Inventory[i].Name,-20}{Inventory[i].StatsType,3} +{Inventory[i].Stats,-5} |";
-                    Console.WriteLine(string.Format(firstLine));
-                    Console.WriteLine($"| \x1b[2;37m {Inventory[i].Description,-30}\x1b[0m|");
-
-                    //string itemName = Inventory[i].Name.PadRight(30);
-                    //string itemStats = Inventory[i].Stats.PadRight(20);
-                    //string itemDescription = Inventory[i].Description.PadRight(50);
-
-                    //string itemLine = $"│ {itemName} {itemStats}  │";
-                    //string DescriptionLine = $"│ {itemDescription} │";
-
-                    //Console.WriteLine(itemLine);
-                    //Console.WriteLine(itemDescription);
-
-                    //string itemLine = string.Format("│ {0,-30} {1,-20} │", Inventory[i].Name, Inventory[i].Stats);
-                    //string desriptionLine = string.Format("│ {0,-50} │", Inventory[i].Description);
-                    //Console.WriteLine(itemLine);
-                    //Console.WriteLine(desriptionLine);
-
-                    Console.WriteLine("│ ======================================  │");
-                    Console.WriteLine("│                                         │");
                 }
+                Console.SetCursorPosition(5, 23);
 
-
-                Console.WriteLine($"│ {modeChage,-31}│");
-                Console.WriteLine("│                                         │");
-                Console.WriteLine("└─────────────────────────────────────────┘");
+                Console.WriteLine($"{modeChage}");
+                Console.SetCursorPosition(1, 26);
                 Console.Write(">> "); 
 
                 string? answer = Console.ReadLine();
@@ -335,52 +349,7 @@ namespace LegendofSparta.PlayerClass
                     }
                     else if(bEquipMode == true && !bItemSort) //장착모드일 때 
                     {
-                        //아이템 선택
-                        //if(select != 0  && Inventory.Count >= select)
-                        //{
-                        //    //Inventory[select-1].IsEquip = Inventory[select-1].IsEquip ? false : true;
-                        //    //아이템 장착중이라면 장착 해제
-                        //    if (Inventory[select-1].IsEquip)
-                        //    {
-                        //        switch (Inventory[select-1].StatsType)
-                        //        {
-                        //            //아이템 장착해제 후 능력치 조절
-                        //            case STATSTYPE.Atk:
-                        //                PlayerStatus.Atk -= int.Parse(Inventory[select-1].Stats);
-                        //                break;
-                        //            case STATSTYPE.Def:
-                        //                PlayerStatus.Def -= int.Parse(Inventory[select-1].Stats);
-                        //                break;
-                        //        }
-                        //        Inventory[select-1].IsEquip = false;
-                        //    }
-                        //    else //장착완료
-                        //    {
-                        //        //아이템 장착 후 능력치 조절  
-                        //        switch (Inventory[select - 1].StatsType)
-                        //        {
-                        //            case STATSTYPE.Atk:
-                        //                PlayerStatus.Atk += int.Parse(Inventory[select - 1].Stats);
-                        //                break;
-                        //            case STATSTYPE.Def:
-                        //                PlayerStatus.Def += int.Parse(Inventory[select - 1].Stats);
-                        //                break;
-                        //        }
-                        //        Inventory[select - 1].IsEquip = true;
-                        //    }
-                        //}
-                        //else if(select == 0) //장착모드 해제
-                        //{
-                        //    bEquipMode = false;
-                        //    modeChage = "1.장착모드 2.아이템 정렬";
-                        //}
-                        //else
-                        //{
-                        //    Console.WriteLine("잘못 입력하셨습니다."); 
-                        //    Thread.Sleep(500);
-                        //}
-
-                        if (select != 0 && Inventory.Count >= select)
+                        if (select != 0 && Inventory.Count >= select) //장착할 아이템 선택 
                         {
                             //아이템 장착중이라면 장착 해제
                             if (Inventory[select - 1].IsEquip)
@@ -492,8 +461,6 @@ namespace LegendofSparta.PlayerClass
                 }
             }
             
-
-
             /* 생각하기
              제일 긴 문자열의 길이에 맞춰 출력하고 한글의 크기랑 같은 띄어쓰기로 빈공간을 채움      
             */
