@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace LegendofSparta.ItemClass
 {
@@ -30,6 +32,13 @@ namespace LegendofSparta.ItemClass
         public int Price { get; set; }
 
         public bool IsEquip { get; set; }
+
+        public Item()
+        {
+            Name = " ";
+            Stats =" ";
+            Description = " ";
+        } 
         public Item(ITEMTYPE itemiype,string name, STATSTYPE statstype, string stats, string description, int price, bool isequip ) 
         {
             ItemType = itemiype;

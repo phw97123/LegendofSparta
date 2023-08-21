@@ -85,7 +85,7 @@ namespace LegendofSparta.GameManger
                 Console.WriteLine("└─────────────────────────────────┘");
                 Console.Write(">> "); 
 
-                string answer = Console.ReadLine();
+                string? answer = Console.ReadLine();
                 if (answer == "y" || answer == "y")
                 {
                     Console.Clear();
@@ -135,7 +135,7 @@ namespace LegendofSparta.GameManger
                 Console.WriteLine("원하는 행동을 입력해주세요.");
                 Console.Write(">>");
 
-                string answer = Console.ReadLine();
+                string? answer = Console.ReadLine();
                 int select;
                 bool bValid = int.TryParse(answer, out select);
 
