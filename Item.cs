@@ -10,12 +10,12 @@ namespace LegendofSparta.ItemClass
 {
     enum ITEMTYPE
     {
-        Weapon, Head, Armor, Shoes
+        Weapon, Head, Armor, Gold
     }
 
     enum STATSTYPE
     {
-        Atk,Def
+        Atk,Def,Gold
     }
 
     public enum ITEMSORT

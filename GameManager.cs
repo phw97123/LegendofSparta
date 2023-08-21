@@ -11,6 +11,7 @@ namespace LegendofSparta.GameManger
      internal class GameManager
      {
         Player player = new Player();
+        Store store = new Store();
 
         public void TextOutput(string text)
         {
@@ -18,7 +19,7 @@ namespace LegendofSparta.GameManger
             {
                 string text1 = text.Substring(i, 1); 
                 Console.Write(text1);
-                Thread.Sleep(200);
+                Thread.Sleep(50);
             }
             Console.WriteLine();
         }
@@ -130,6 +131,7 @@ namespace LegendofSparta.GameManger
                 Console.WriteLine();
                 Console.WriteLine("1.상태창");
                 Console.WriteLine("2.인벤토리");
+                Console.WriteLine("3.상점");
                 Console.WriteLine();
                 Console.WriteLine();
                 Console.WriteLine("원하는 행동을 입력해주세요.");
@@ -152,6 +154,10 @@ namespace LegendofSparta.GameManger
                             Console.WriteLine("인벤토리");
                             player.ShowInventory(); 
                             break;
+                        case 3:
+                            Console.WriteLine("상점");
+                            store.StartStroe(player);
+                            break; 
 
                         default:
                             Console.WriteLine("잘못된 입력입니다.");
@@ -171,9 +177,10 @@ namespace LegendofSparta.GameManger
         public void Run()
         {
             //GameStartScene();
-            //CreateCharacter(); 
-            player.ShowInventory(); 
+            CreateCharacter(); 
+            //player.ShowInventory(); 
             //player.PlayerStatus.ShowStatus(); 
+            
         }
      }
 }

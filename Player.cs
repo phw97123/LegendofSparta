@@ -17,9 +17,9 @@ namespace LegendofSparta.PlayerClass
         public Status PlayerStatus;
         public List<Item> Inventory;
 
-        Item? equipWeapon;
-        Item? equipHead; 
-        Item? equipArmor; 
+        public Item? equipWeapon { get; set; }
+        public Item? equipHead { get; set; }
+        public Item? equipArmor { get; set; }
 
         ITEMSORT itemsort; //아이템 정렬방식 enum
         public Player() 
@@ -386,7 +386,7 @@ namespace LegendofSparta.PlayerClass
                                     //아이템 장착해제 후 능력치 조절
                                     case STATSTYPE.Atk:
                                         PlayerStatus.Atk -= int.Parse(Inventory[select - 1].Stats);
-                                        equipWeapon = null; 
+                                        equipWeapon = null;
                                         break;
                                     case STATSTYPE.Def:
                                         PlayerStatus.Def -= int.Parse(Inventory[select - 1].Stats);
@@ -404,14 +404,25 @@ namespace LegendofSparta.PlayerClass
                                 switch (Inventory[select - 1].StatsType)
                                 {
                                     case STATSTYPE.Atk:
+                                        if(equipWeapon != null)
+                                            PlayerStatus.Atk -= int.Parse(equipWeapon.Stats);
                                         equipWeapon = Inventory[select - 1];
                                         PlayerStatus.Atk += int.Parse(Inventory[select - 1].Stats);
                                         break;
                                     case STATSTYPE.Def:
+                                       
                                         if (Inventory[select - 1].ItemType == ITEMTYPE.Armor)
-                                            equipArmor = Inventory[select-1];
+                                        {
+                                            if (equipArmor != null)
+                                                PlayerStatus.Def -= int.Parse(equipArmor.Stats);
+                                            equipArmor = Inventory[select - 1];
+                                        }
                                         else
-                                            equipHead = Inventory[select -1];
+                                        {
+                                            if (equipHead != null)
+                                                PlayerStatus.Def -= int.Parse(equipHead.Stats);
+                                            equipHead = Inventory[select - 1];
+                                        }
                                         PlayerStatus.Def += int.Parse(Inventory[select - 1].Stats);
                                         break;
                                 }
@@ -484,9 +495,5 @@ namespace LegendofSparta.PlayerClass
             */
 
         }
-        
-
-
-
     }
 }

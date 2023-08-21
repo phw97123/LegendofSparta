@@ -94,6 +94,8 @@ namespace LegendofSparta
             Console.WriteLine("└─────────────────────────────────────────┘");
 
 
+           
+
             //Console.OutputEncoding = System.Text.Encoding.UTF8; // UTF-8 인코딩 설정
 
             //string itemName = "무쇠로 만들어져 튼튼한 갑옷";
