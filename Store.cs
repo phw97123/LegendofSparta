@@ -105,7 +105,7 @@ namespace LegendofSparta
                     }
                     else if(select != 0  && select <= StoreItem.Count)
                     {
-                        if (StoreItem[select-1].Price<=player.PlayerStatus.Gold && StoreItem[select-1].ItemType != ITEMTYPE.Gold)
+                        if (StoreItem[select-1].Price<=player.PlayerStatus.Gold && StoreItem[select-1].ItemType != ITEMTYPE.Gold && player.Inventory.Count < player.itemLimit)
                         {
                             player.PlayerStatus.Gold -= StoreItem[select - 1].Price;
                             player.Inventory.Add(StoreItem[select-1]);
@@ -116,6 +116,11 @@ namespace LegendofSparta
                         {
                             player.PlayerStatus.Gold += int.Parse(StoreItem[select - 1].Stats);
                             Console.WriteLine("구매완료");
+                        }
+                        else if(player.Inventory.Count == player.itemLimit)
+                        {
+                            Console.WriteLine("가방이 꽉 찼습니다.");
+                            Thread.Sleep(500);
                         }
                         else
                         {

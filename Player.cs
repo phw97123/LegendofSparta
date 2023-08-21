@@ -31,10 +31,10 @@ namespace LegendofSparta.PlayerClass
 
             //기본 스탯
             PlayerStatus.Level = 1;
-            PlayerStatus.Hp = 100; 
+            PlayerStatus.Hp = 200; 
             PlayerStatus.MaxHp = 200;
-            PlayerStatus.Mp = 50; 
-            PlayerStatus.MaxMp = 50;
+            PlayerStatus.Mp = 100; 
+            PlayerStatus.MaxMp = 100;
             PlayerStatus.Atk = 20;
             PlayerStatus.Def = 15;
             PlayerStatus.Gold = 1000; 
@@ -59,25 +59,6 @@ namespace LegendofSparta.PlayerClass
 
             Item oldspear= new Item(ITEMTYPE.Weapon, "낡은창", STATSTYPE.Atk, "5", "세월이 느껴지는 창", 300, false);
             Inventory.Add(oldspear);
-
-
-            //초기 아이템 능력치 추가
-            //for (int i = 0; i<Inventory.Count; i++)
-            //{
-            //    if (Inventory[i].IsEquip)
-            //    {
-            //        switch(Inventory[i].StatsType)
-            //        {
-            //            case STATSTYPE.Atk:
-            //                PlayerStatus.Atk += int.Parse(Inventory[i].Stats);
-            //                break;
-            //            case STATSTYPE.Def:
-            //                PlayerStatus.Def += int.Parse(Inventory[i].Stats);
-            //                break;
-            //        }
-                        
-            //    }
-            //}
 
             //초기 아이템 장착
             for(int i = 0; i<Inventory.Count; i++)
@@ -172,27 +153,52 @@ namespace LegendofSparta.PlayerClass
 
                 //totalWidth = 35; 
 
+                //string format = "┌─────────────────────────────────┐\n" +
+                //                "│                           0.닫기│\n" +
+                //                "│            [상태창]             │\n" +
+                //                "│                                 │\n" +
+                //                "│  {0,-22}Lv.{1,3:D2}   │\n" +
+                //                "│ =============================== │\n" +
+                //                "│  HP {2,-3}/{3,-13}MP {4,3}/{5,-4}│\n" +
+                //                "│  {9,-32} {10,-24}│\n" +
+                //                "│ =============================== │\n" +
+                //                "│  공격력 {6,-24}│\n" +
+                //                "│  방어력 {7,-24}│\n" +
+                //                "│   Gold  {8,-24}|\n" +
+                //                "│                                 │\n" +
+                //                "└─────────────────────────────────┘";
+
+                //Console.WriteLine(string.Format(format, PlayerStatus.Name, PlayerStatus.Level, PlayerStatus.Hp, PlayerStatus.MaxHp, PlayerStatus.Mp, PlayerStatus.MaxMp, equipAtk, equipDef, PlayerStatus.Gold + "G", hpColor, mpColor));
+
                 string format = "┌─────────────────────────────────┐\n" +
                                 "│                           0.닫기│\n" +
                                 "│            [상태창]             │\n" +
                                 "│                                 │\n" +
                                 "│  {0,-22}Lv.{1,3:D2}   │\n" +
                                 "│ =============================== │\n" +
-                                "│  HP {2,-3}/{3,-13}MP {4,3}/{5,-4}│\n" +
-                                "│  {9,-32} {10,-24}│\n" +
+                                "│                                 │\n" +
+                                "│  {2,-32} {3,-24}│\n" +
                                 "│ =============================== │\n" +
-                                "│  공격력 {6,-24}│\n" +
-                                "│  방어력 {7,-24}│\n" +
-                                "│   Gold  {8,-24}|\n" +
+                                "│                                 │\n" +
+                                "│                                 │\n" +
+                                "│                                 │\n" +
                                 "│                                 │\n" +
                                 "└─────────────────────────────────┘";
+              
+                
 
-                Console.WriteLine(string.Format(format, PlayerStatus.Name, PlayerStatus.Level, PlayerStatus.Hp, PlayerStatus.MaxHp, PlayerStatus.Mp, PlayerStatus.MaxMp, equipAtk, equipDef, PlayerStatus.Gold + "G", hpColor, mpColor));
-
-                /*
-                *문자열희 형식을 유지하면서 특정 부분만 변경
-                string.Format: 보간 문자열 (-는 왼쪽 정렬, 변수의 출력공간 지정  
-                */
+                Console.WriteLine(string.Format(format,PlayerStatus.Name,PlayerStatus.Level,hpColor,mpColor));
+                Console.SetCursorPosition(3, 6);
+                string HPMP= $"HP {PlayerStatus.Hp}/{PlayerStatus.MaxHp}          MP {PlayerStatus.Mp}/{PlayerStatus.MaxMp}";
+                Console.WriteLine(HPMP);
+                Console.SetCursorPosition(3, 9);
+                Console.WriteLine($"공격력 {PlayerStatus.Atk}");
+                Console.SetCursorPosition(3, 10);
+                Console.WriteLine($"방어력 {PlayerStatus.Def}");
+                Console.SetCursorPosition(3, 11);
+                Console.WriteLine($"Gold {PlayerStatus.Gold}");
+                Console.SetCursorPosition(0, 14);
+                Console.Write(">> ");
 
                 string? answer = Console.ReadLine();
                 if (answer == "0")

@@ -60,7 +60,7 @@ namespace LegendofSparta
             Console.WriteLine("원하는 행동을 입력해주세요.");
             Console.Write(">>");
 
-
+            
 
             Console.ReadKey();
             Console.Clear();
