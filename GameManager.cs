@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
@@ -21,7 +22,7 @@ namespace LegendofSparta.GameManger
             {
                 string text1 = text.Substring(i, 1);
                 Console.Write(text1);
-                Thread.Sleep(50);
+                Thread.Sleep(70);
             }
             Console.WriteLine();
         }
@@ -58,21 +59,13 @@ namespace LegendofSparta.GameManger
         void CreateCharacter()
         {
             Console.Clear();
-            Console.WriteLine(" 플레이어의 이름을 정해주세요.");
-            Console.WriteLine("┌─────────────────────────────────┐");
-            Console.WriteLine("│                                 │");
-            Console.WriteLine("│    이름:                        │");
-            Console.WriteLine("│                                 │");
-            Console.WriteLine("└─────────────────────────────────┘");
-
-            //string playerNameSet = "플레이어의 이름을 정해주세요.\n" +
-            //                       "┌─────────────────────────────────┐\n" +
-            //                       "│                                 │\n" +
-            //                       "│    이름:                        │\n" +
-            //                       "│                                 │\n" +
-            //                       "└─────────────────────────────────┘\n";
-
-            //CenterWriteLine(playerNameSet);
+            Console.WriteLine(); 
+            Console.WriteLine("  플레이어의 이름을 정해주세요.");
+            Console.WriteLine(" ┌─────────────────────────────────┐");
+            Console.WriteLine(" │                                 │");
+            Console.WriteLine(" │    이름:                        │");
+            Console.WriteLine(" │                                 │");
+            Console.WriteLine(" └─────────────────────────────────┘");
 
             Console.SetCursorPosition(11, Console.CursorTop - 3);
 
@@ -90,27 +83,28 @@ namespace LegendofSparta.GameManger
             {
                 Console.Clear();
 
-                Console.WriteLine("이 이름으로 하시겠습니까?");
-                Console.WriteLine("┌─────────────────────────────────┐");
-                Console.WriteLine("│                                 │");
-                Console.WriteLine($"│{player.PlayerStatus.Name.PadLeft(padding + player.PlayerStatus.Name.Length).PadRight(totalWidth - 1)}│");
+                Console.WriteLine(); 
+                Console.WriteLine("  이 이름으로 하시겠습니까?");
+                Console.WriteLine(" ┌─────────────────────────────────┐");
+                Console.WriteLine(" │                                 │");
+                Console.WriteLine($" │{player.PlayerStatus.Name.PadLeft(padding + player.PlayerStatus.Name.Length).PadRight(totalWidth - 1)}│");
                 //-1을 한 이유는 마지막 '|' 문자를 포함하여 전체 길이에 맞게 패딩을 적용
-                Console.WriteLine("│                                 │");
-                Console.WriteLine("│             Y / N               │");
-                Console.WriteLine("│                                 │");
-                Console.WriteLine("└─────────────────────────────────┘");
+                Console.WriteLine(" │                                 │");
+                Console.WriteLine(" │             Y / N               │");
+                Console.WriteLine(" │                                 │");
+                Console.WriteLine(" └─────────────────────────────────┘");
                 Console.Write(">> ");
 
                 string? answer = Console.ReadLine();
                 if (answer == "y" || answer == "y")
                 {
                     Console.Clear();
-                    //Console.WriteLine("캐릭터 생성 완료...");
-                    TextOutput("캐릭터 생성 중...");
+                    Console.WriteLine(); 
+                    TextOutput(" 캐릭터 생성 중...");
                     Thread.Sleep(500);
-                    TextOutput("캐릭터 생성 완료 !");
-                    //Console.WriteLine("마을로 들어가는 중...");
-                    TextOutput("마을로 들어가는 중...");
+                    TextOutput(" 캐릭터 생성 완료 !");
+                    Thread.Sleep(500);
+                    TextOutput(" 마을로 들어가는 중...");
                     Thread.Sleep(1000);
                     VillageScene();
                     break;
@@ -148,21 +142,20 @@ namespace LegendofSparta.GameManger
                 }
 
                 Console.Clear();
-                Console.WriteLine($"안녕하세요 {player.PlayerStatus.Name}님");
-                Console.WriteLine("여기는 전설이 되기 위해 많은 모험가들이 모이는 마을입니다");
-                Console.WriteLine("이곳에서 전설이 되기 위해 준비의 준비를 하세요");
+                Console.WriteLine(); 
+                Console.WriteLine($"   안녕하세요 {player.PlayerStatus.Name}님");
+                Console.WriteLine("   여기는 전설이 되기 위해 많은 모험가들이 모이는 마을입니다");
+                Console.WriteLine("   이곳에서 전설이 되기 위해 준비를 하고 몬스터를 소탕하세요");
                 Console.WriteLine();
-                Console.WriteLine("----------------------------------------------------------");
+                Console.WriteLine("  ----------------------------------------------------------");
 
                 Console.WriteLine();
-                Console.WriteLine("1.상태창");
-                Console.WriteLine("2.인벤토리");
-                Console.WriteLine("3.상점");
-                Console.WriteLine("4.던전");
-                Console.WriteLine("5.병원");
+                Console.WriteLine("  1.상태창");
+                Console.WriteLine("  2.인벤토리");
+                Console.WriteLine("  3.상점");
+                Console.WriteLine("  4.던전");
+                Console.WriteLine("  5.병원");
                 Console.WriteLine();
-                Console.WriteLine();
-                Console.WriteLine("원하는 행동을 입력해주세요.");
                 Console.Write(">>");
 
                 string? answer = Console.ReadLine();
@@ -194,7 +187,7 @@ namespace LegendofSparta.GameManger
 
                         case 5:
                             Console.WriteLine("병원");
-
+                            ShowRest(); 
                             break;
 
                         default:
@@ -239,6 +232,7 @@ namespace LegendofSparta.GameManger
             Console.ReadKey();
         }
 
+        //몬스터 처치시 나오는 화면
         void PlayerVictory(string monsterName)
         {
             Console.Clear();
@@ -297,17 +291,28 @@ namespace LegendofSparta.GameManger
                     }
                     else if (select == 1)
                     {
-                       if(player.PlayerStatus.Hp == player.PlayerStatus.MaxHp)
+                       if(player.PlayerStatus.Hp == player.PlayerStatus.MaxHp && player.PlayerStatus.Mp == player.PlayerStatus.MaxMp)
                        {
-                            Console.WriteLine("이미 체력이 가득 차 있습니다 마음이라도 휴식하고 가세요");
-                            Thread.Sleep(500); 
-
+                            Console.WriteLine("휴식할 필요가 없습니다.");
+                            Thread.Sleep(500);
+                            break; 
                        }
                        else
                        {
+                           for(int i = 0; i<3; i++)
+                           {
+                                Console.Clear();
+                                Console.WriteLine(); 
+                                TextOutput(" 회복중...");
+                                Thread.Sleep(500);
+                           }
 
+                            player.PlayerStatus.Hp = player.PlayerStatus.MaxHp; 
+                            player.PlayerStatus.Mp = player.PlayerStatus.MaxMp;
+
+                            player.ShowStatus();
+                            break;
                        }
-                        player.ShowStatus(); 
                     }
                     else
                     {
@@ -327,25 +332,10 @@ namespace LegendofSparta.GameManger
 
         }
 
-        void showCatsRest()
-        {
-            string cat = @"
-               /\_/\
-              ( o.o ) 
-               > ^ < 
-";
-            Console.WriteLine(cat); 
-        }
         public void Run()
         {
-            // GameStartScene();
-            //CreateCharacter(); 
-            //player.ShowInventory(); 
-            //player.ShowStatus(); 
-            dungeon.DungeonDescription(player);
-            //PlayerVictory("스켈레톤"); 
-            //ShowRest(); 
-            //showCatsRest();
+             GameStartScene();
+            
         }
     }
 }

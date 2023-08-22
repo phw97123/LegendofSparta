@@ -14,7 +14,8 @@ namespace LegendofSparta.MonsterClass
         
         public string Image { get; set; }
 
-        public int Reward { get; set; }
+        public int RewardGold { get; set; }
+        public int RewardExp { get; set; }
         public Monster() 
         {
             MonsterStatus = new Status();
@@ -24,7 +25,8 @@ namespace LegendofSparta.MonsterClass
             MonsterStatus.Atk = 0;
             MonsterStatus.Def = 0;
             Image = "";
-            Reward = 0;
+            RewardGold = 0;
+            RewardExp = 0;
         }
 
         public string ShowMonsterState()

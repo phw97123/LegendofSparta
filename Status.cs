@@ -21,6 +21,9 @@ namespace LegendofSparta.StatusClass
         public int Def { get; set; }
         public int Gold { get; set; }
 
+        public int Exp { get; set; }
+        public int MaxExp {  get; set; }
+
          public Status()
          { 
             Name = "Unknown";
@@ -32,6 +35,8 @@ namespace LegendofSparta.StatusClass
             Atk = 0;
             Def = 0;
             Gold = 0;
+            Exp = 0;
+            MaxExp = 0;
          }
 
         

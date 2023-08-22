@@ -44,7 +44,8 @@ namespace LegendofSparta
             skeleton.MonsterStatus.MaxHp = 200;
             skeleton.MonsterStatus.Atk = 40;
             skeleton.MonsterStatus.Def = 15;
-            skeleton.Reward = 1000;
+            skeleton.RewardGold = 1000;
+            skeleton.RewardExp = 100; 
             skeleton.Image = @"               .-.
               (o.o)
                |=|
@@ -64,8 +65,8 @@ namespace LegendofSparta
             dragon.MonsterStatus.MaxHp = 300;
             dragon.MonsterStatus.Atk = 40;
             dragon.MonsterStatus.Def = 50;
-            dragon.Reward = 3000;
-
+            dragon.RewardGold = 3000;
+            dragon.RewardExp = 300; 
 
             //dragon.Image = @"                      __====-_  _-====___
             //                _--^^^#####//      \\#####^^^--_
@@ -166,6 +167,8 @@ _#/|#####/\\######(  (/^^\\) )######/\\######|\\#_
 
         public void ShowDungeon(Monster monster,Player player)
         {
+            monster.MonsterStatus.Hp = monster.MonsterStatus.MaxHp;
+            int playerEnterHp = player.PlayerStatus.Hp; 
             while(true)
             {
                 string battleDescription = "";
@@ -201,30 +204,33 @@ _#/|#####/\\######(  (/^^\\) )######/\\######|\\#_
                 Console.WriteLine();
                 Console.Write(" >> ");
 
-                if (player.PlayerStatus.Hp <= 0)
+                if (player.PlayerStatus.Hp <= 0) //플레이어가 죽었을 때 
                 {
                     Thread.Sleep(500);
                     break;
                 }
-                else if(monster.MonsterStatus.Hp<= 0)
+                else if(monster.MonsterStatus.Hp<= 0) //몬스터가 죽었을 때 보상 
                 {
                     Thread.Sleep(1000);
 
                     Console.Clear(); 
                     player.bVictory = true;
                     player.victoryMonster = monster.MonsterStatus.Name; 
-                    Thread.Sleep(500);
 
                     //플레이어의 남은 체력의 비율 계산 
-                    double playerHealthRatio = (double)player.PlayerStatus.Hp / player.PlayerStatus.MaxHp;
-                    int maxDecrease = 100;
+                    double playerHealthRatio = (double)playerEnterHp / player.PlayerStatus.Hp;
+
+                    int maxDecreaseGold= 100;
                    
-                    int reward = skeleton.Reward - (int)(maxDecrease * playerHealthRatio);
+                    int rewardGold = monster.RewardGold - (int)(maxDecreaseGold * playerHealthRatio);
 
-                    player.PlayerStatus.Gold += reward;
+                    player.PlayerStatus.Gold += rewardGold;
+                    player.PlayerStatus.Exp += monster.RewardExp;
 
-                    Console.WriteLine($" {reward}G 의 보상을 얻었습니다"); 
-                    Thread.Sleep(1000);
+                    Console.WriteLine($" {rewardGold}G 을 얻었습니다");
+                    Console.WriteLine($" {monster.RewardExp}의 경험치를 얻었습니다");
+                    player.LevelUpWithExp(); 
+                    Thread.Sleep(2000);
                     break;
                 }
                 

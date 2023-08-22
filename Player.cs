@@ -20,9 +20,12 @@ namespace LegendofSparta.PlayerClass
         public List<Item> Inventory;
         public int itemLimit = 5;
 
+        //전투 승리시
         public bool bVictory = false;
+        //처치한 몬스터 이름 저장
         public string victoryMonster = ""; 
 
+        //장착된 아이템 
         public Item? equipWeapon { get; set; }
         public Item? equipHead { get; set; }
         public Item? equipArmor { get; set; }
@@ -34,13 +37,15 @@ namespace LegendofSparta.PlayerClass
 
             //기본 스탯
             PlayerStatus.Level = 1;
-            PlayerStatus.Hp = 100; 
+            PlayerStatus.Hp = 50; 
             PlayerStatus.MaxHp = 100;
             PlayerStatus.Mp = 50; 
             PlayerStatus.MaxMp = 50;
             PlayerStatus.Atk = 20;
             PlayerStatus.Def = 15;
-            PlayerStatus.Gold = 1000; 
+            PlayerStatus.Gold = 1000;
+            PlayerStatus.Exp = 0;
+            PlayerStatus.MaxExp = 50; 
 
             Inventory = new List<Item>();
 
@@ -182,6 +187,7 @@ namespace LegendofSparta.PlayerClass
                                 "│                                 │\n" +
                                 "│                                 │\n" +
                                 "│                                 │\n" +
+                                "│                                 │\n" +
                                 "└─────────────────────────────────┘";
               
                 
@@ -195,8 +201,10 @@ namespace LegendofSparta.PlayerClass
                 Console.SetCursorPosition(3, 10);
                 Console.WriteLine($"방어력 {equipDef}");
                 Console.SetCursorPosition(3, 11);
-                Console.WriteLine($"Gold {PlayerStatus.Gold}");
-                Console.SetCursorPosition(0, 14);
+                Console.WriteLine($"Gold {PlayerStatus.Gold}G");
+                Console.SetCursorPosition(3, 12);
+                Console.WriteLine($"Exp {PlayerStatus.Exp}/{PlayerStatus.MaxExp}");
+                Console.SetCursorPosition(0, 15);
                 Console.Write(">> ");
 
                 string? answer = Console.ReadLine();
@@ -302,7 +310,7 @@ namespace LegendofSparta.PlayerClass
                         }
 
                         Console.SetCursorPosition(3, 3 + 4 * i);
-                        string firstLine = $"{equipStr} {(bEquipMode ? (i + 1) + "." : "")}{Inventory[i].Name}{Inventory[i].StatsType,24} +{Inventory[i].Stats} ";
+                        string firstLine = $"{equipStr} {(bEquipMode ? (i + 1) + "." : "")}{Inventory[i].Name}{Inventory[i].StatsType,15} +{Inventory[i].Stats} ";
                         Console.WriteLine(string.Format(firstLine));
                         Console.SetCursorPosition(3, 4 + 4 * i);
                         Console.WriteLine($"\x1b[2;37m {Inventory[i].Description}\x1b[0m");
@@ -388,11 +396,11 @@ namespace LegendofSparta.PlayerClass
                                         PlayerStatus.Atk += int.Parse(Inventory[select - 1].Stats);
                                         break;
                                     case STATSTYPE.Def:
-                                       
                                         if (Inventory[select - 1].ItemType == ITEMTYPE.Armor)
                                         {
                                             if (equipArmor != null)
                                                 PlayerStatus.Def -= int.Parse(equipArmor.Stats);
+
                                             equipArmor = Inventory[select - 1];
                                         }
                                         else
@@ -467,6 +475,7 @@ namespace LegendofSparta.PlayerClass
             }
         }
 
+        //일반 공격
         public int TakeDamage(int monsterDef)
         {
             Random random = new Random();
@@ -478,6 +487,7 @@ namespace LegendofSparta.PlayerClass
             return actualAtk; 
         }
 
+        //치명타 공격
         public int CriticalTakeDamage(int monsterDef)
         {
             PlayerStatus.Mp -= 10; 
@@ -489,6 +499,26 @@ namespace LegendofSparta.PlayerClass
             actualAtk = Math.Max(actualAtk, 0); 
 
             return actualAtk;
+        }
+
+        public void LevelUpWithExp()
+        {
+            while (true)
+            {
+                if (PlayerStatus.Exp >= PlayerStatus.MaxExp)
+                {
+                    int remaining = PlayerStatus.Exp - PlayerStatus.MaxExp;
+                    PlayerStatus.Level+=1;
+                    PlayerStatus.Exp = 0;
+                    PlayerStatus.MaxExp += 20;
+                    PlayerStatus.Exp += remaining;
+                    Console.WriteLine($"{PlayerStatus.Name}의 레벨이 1 올랐다"); 
+                }
+                else
+                {
+                    break;
+                }
+            }
         }
     }
 }

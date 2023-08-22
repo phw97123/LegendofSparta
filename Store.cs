@@ -19,13 +19,12 @@ namespace LegendofSparta
             StoreItem = new List<Item>();
             Item spartaSword = new Item(ITEMTYPE.Weapon, "스파르타인의 대검", STATSTYPE.Atk, "30", "무겁지만 좋은 검이다.", 3000, false);
             Item spartaHead = new Item(ITEMTYPE.Head, "스파르타인의 투구", STATSTYPE.Def, "30", "무거워보이지만 튼튼해보인다", 3000, false);
-            Item spartaArmor = new Item(ITEMTYPE.Head, "스파르타인의 갑옷", STATSTYPE.Def, "50", "무거워보이지만 튼튼해보인다", 5000, false);
+            Item spartaArmor = new Item(ITEMTYPE.Armor, "스파르타인의 갑옷", STATSTYPE.Def, "50", "무거워보이지만 튼튼해보인다", 5000, false);
             Item GoldCopy = new Item(ITEMTYPE.Gold, "1000G", STATSTYPE.Gold, "1000", "골드를 복사할 수 있는 치트", 0, false);
             StoreItem.Add(spartaSword);
             StoreItem.Add(spartaHead);
             StoreItem.Add(spartaArmor);
             StoreItem.Add(GoldCopy);
-
         }
 
         public void StartStroe(Player player)
@@ -33,7 +32,9 @@ namespace LegendofSparta
             while(true)
             {
                 Console.Clear();
-
+                Console.WriteLine();
+                Console.WriteLine();
+                Console.WriteLine();
                 Console.WriteLine("                     [상점]                      ");
                 Console.WriteLine("        뭘 사려고? 아니면 뭘 좀 팔아볼텐가?        ");
                 Console.WriteLine();
@@ -78,21 +79,21 @@ namespace LegendofSparta
             while(true)
             {
                 Console.Clear();
-
+                Console.WriteLine(); 
                 Console.WriteLine("                     [상점]                      ");
                 Console.WriteLine("              최고의 물건들만 있다네.             ");
                 Console.WriteLine();
 
                 for (int i = 0; i < StoreItem.Count; i++)
                 {
-                    Console.WriteLine($"{i + 1}.{StoreItem[i].Name,-30}{StoreItem[i].StatsType,4} +{StoreItem[i].Stats}");
-                    Console.WriteLine($" {StoreItem[i].Description,-40}{StoreItem[i].Price,5}G");
+                    Console.WriteLine($"  {i + 1}.{StoreItem[i].Name,-25}{StoreItem[i].StatsType,4} +{StoreItem[i].Stats,-5}");
+                    Console.WriteLine($"   {StoreItem[i].Description,-25}{StoreItem[i].Price,5}G");
                     Console.WriteLine();
                 }
 
-                Console.WriteLine("0.나가기");
+                Console.WriteLine(" 0.나가기");
                 Console.WriteLine();
-                Console.WriteLine($"현재 골드 : {player.PlayerStatus.Gold}G"); 
+                Console.WriteLine($" 현재 골드 : {player.PlayerStatus.Gold}G"); 
                 Console.Write(">> ");
                 string? answer = Console.ReadLine();
                 int select;
@@ -150,20 +151,21 @@ namespace LegendofSparta
 
                 Console.Clear();
 
+                Console.WriteLine();
                 Console.WriteLine("                     [상점]                      ");
                 Console.WriteLine("          특별히 비싸게 사주도록 하지.         ");
                 Console.WriteLine();
 
                 for (int i = 0; i < player.Inventory.Count; i++)
                 {
-                    Console.WriteLine($"{i + 1}.{player.Inventory[i].Name,-30}{player.Inventory[i].StatsType,4} +{player.Inventory[i].Stats}");
-                    Console.WriteLine($" {player.Inventory[i].Description,-40}{(int)(player.Inventory[i].Price*0.5f),5}G");
+                    Console.WriteLine($"  {i + 1}.{player.Inventory[i].Name,-25}{player.Inventory[i].StatsType,4} +{player.Inventory[i].Stats,-5}");
+                    Console.WriteLine($"   {player.Inventory[i].Description,-25}{(int)(player.Inventory[i].Price*0.5f),5}G");
                     Console.WriteLine();
                 }
 
-                Console.WriteLine("0.나가기");
+                Console.WriteLine(" 0.나가기");
                 Console.WriteLine();
-                Console.WriteLine($"현재 골드 : {player.PlayerStatus.Gold}G");
+                Console.WriteLine($" 현재 골드 : {player.PlayerStatus.Gold}G");
                 Console.Write(">> ");
                 string? answer = Console.ReadLine();
                 int select;
