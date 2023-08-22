@@ -9,8 +9,8 @@ using LegendofSparta.PlayerClass;
 
 namespace LegendofSparta.GameManger
 {
-     internal class GameManager
-     {
+    internal class GameManager
+    {
         Player player = new Player();
         Store store = new Store();
         Dungeon dungeon = new Dungeon();
@@ -51,8 +51,8 @@ namespace LegendofSparta.GameManger
             Console.WriteLine("                        ");
             Console.ReadKey();
 
-            CreateCharacter(); 
-            
+            CreateCharacter();
+
         }
 
         void CreateCharacter()
@@ -78,7 +78,7 @@ namespace LegendofSparta.GameManger
 
             player.PlayerStatus.Name = Console.ReadLine();
 
-            CheckCharacterCreation(); 
+            CheckCharacterCreation();
         }
 
         void CheckCharacterCreation()
@@ -106,14 +106,14 @@ namespace LegendofSparta.GameManger
                 {
                     Console.Clear();
                     //Console.WriteLine("캐릭터 생성 완료...");
-                    TextOutput("캐릭터 생성 중..."); 
+                    TextOutput("캐릭터 생성 중...");
                     Thread.Sleep(500);
                     TextOutput("캐릭터 생성 완료 !");
                     //Console.WriteLine("마을로 들어가는 중...");
                     TextOutput("마을로 들어가는 중...");
                     Thread.Sleep(1000);
-                    VillageScene(); 
-                    break; 
+                    VillageScene();
+                    break;
                 }
                 else if (answer == "n" || answer == "N")
                 {
@@ -126,21 +126,21 @@ namespace LegendofSparta.GameManger
                     Thread.Sleep(500);
                 }
             }
-           /*
-           PadLeft,Right() : 문자열을 지정한 길이로 패딩한다
-           */
+            /*
+            PadLeft,Right() : 문자열을 지정한 길이로 패딩한다
+            */
         }
 
         void VillageScene()
         {
-            while(true)
+            while (true)
             {
                 if (player.PlayerStatus.Hp <= 0)
                 {
-                    PlayerDie(); 
+                    PlayerDie();
                     player.PlayerStatus.Hp = (int)(player.PlayerStatus.MaxHp * 0.1);
                 }
-                else if(player.bVictory == true)
+                else if (player.bVictory == true)
                 {
                     PlayerVictory(player.victoryMonster);
                     player.bVictory = false;
@@ -158,7 +158,8 @@ namespace LegendofSparta.GameManger
                 Console.WriteLine("1.상태창");
                 Console.WriteLine("2.인벤토리");
                 Console.WriteLine("3.상점");
-                Console.WriteLine("4.던전"); 
+                Console.WriteLine("4.던전");
+                Console.WriteLine("5.병원");
                 Console.WriteLine();
                 Console.WriteLine();
                 Console.WriteLine("원하는 행동을 입력해주세요.");
@@ -168,7 +169,7 @@ namespace LegendofSparta.GameManger
                 int select;
                 bool bValid = int.TryParse(answer, out select);
 
-                if(bValid)
+                if (bValid)
                 {
                     switch (select)
                     {
@@ -179,23 +180,28 @@ namespace LegendofSparta.GameManger
 
                         case 2:
                             Console.WriteLine("인벤토리");
-                            player.ShowInventory(); 
+                            player.ShowInventory();
                             break;
                         case 3:
                             Console.WriteLine("상점");
                             store.StartStroe(player);
-                            break; 
+                            break;
 
                         case 4:
                             Console.WriteLine("던전");
                             dungeon.DungeonDescription(player);
                             break;
 
+                        case 5:
+                            Console.WriteLine("병원");
+
+                            break;
+
                         default:
                             Console.WriteLine("잘못된 입력입니다.");
                             bValid = false;
                             Thread.Sleep(500);
-                            break; 
+                            break;
                     }
                 }
                 else
@@ -255,19 +261,91 @@ namespace LegendofSparta.GameManger
 
                              아무 키나 눌러서 계속... 
                                                                                 
-",monsterName);
+", monsterName);
             Console.ReadKey();
         }
 
+        //휴식 입장
+        void ShowRest() 
+        {
+            while(true)
+            {
+                Console.Clear();
+                string str = @"     
 
+
+
+
+                               [휴식]
+
+               여기는 지친 몸과 마음을 힐링하는 장소입니다
+
+                         0.나가기  1.휴식하기
+";
+
+                Console.WriteLine(str);
+
+                Console.Write(">> ");
+                string? answer = Console.ReadLine();
+                int select;
+                bool bValid = int.TryParse(answer, out select);
+                if (bValid)
+                {
+                    if (select == 0)
+                    {
+                        break;
+                    }
+                    else if (select == 1)
+                    {
+                       if(player.PlayerStatus.Hp == player.PlayerStatus.MaxHp)
+                       {
+                            Console.WriteLine("이미 체력이 가득 차 있습니다 마음이라도 휴식하고 가세요");
+                            Thread.Sleep(500); 
+
+                       }
+                       else
+                       {
+
+                       }
+                        player.ShowStatus(); 
+                    }
+                    else
+                    {
+                        Console.WriteLine("잘못 입력하셨습니다");
+                        Thread.Sleep(500);
+                    }
+
+                }
+                else
+                {
+                    Console.WriteLine("잘못 입력하셨습니다");
+                    Thread.Sleep(500);
+                }
+            }
+            
+
+
+        }
+
+        void showCatsRest()
+        {
+            string cat = @"
+               /\_/\
+              ( o.o ) 
+               > ^ < 
+";
+            Console.WriteLine(cat); 
+        }
         public void Run()
         {
-           GameStartScene();
+            // GameStartScene();
             //CreateCharacter(); 
             //player.ShowInventory(); 
             //player.ShowStatus(); 
-            //dungeon.DungeonDescription(player);
+            dungeon.DungeonDescription(player);
             //PlayerVictory("스켈레톤"); 
+            //ShowRest(); 
+            //showCatsRest();
         }
-     }
+    }
 }

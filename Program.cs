@@ -16,9 +16,6 @@ namespace LegendofSparta
             // Console.Clear(); 
             GameManager game = new GameManager();
             game.Run();
-
-            
-
         }
     }
 }

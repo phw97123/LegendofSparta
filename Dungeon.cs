@@ -9,7 +9,6 @@ using LegendofSparta.MonsterClass;
 
 namespace LegendofSparta
 {
-
     internal class Dungeon
     {
          Monster skeleton;
@@ -66,7 +65,9 @@ namespace LegendofSparta
             dragon.MonsterStatus.Atk = 40;
             dragon.MonsterStatus.Def = 50;
             dragon.Reward = 3000;
-            //            dragon.Image = @"                      __====-_  _-====___
+
+
+            //dragon.Image = @"                      __====-_  _-====___
             //                _--^^^#####//      \\#####^^^--_
             //             _-^##########// (    ) \\##########^-_
             //            -############//  |\^^/|  \\############-
@@ -79,17 +80,20 @@ namespace LegendofSparta
             //     |/  |/  |/  |/  |/  |(  |/  \|  )|  |/  |/  |/  |/  |/  |/
             //";
 
-            dragon.Image = @"                __====-_  _-====___
-            _--^^^#//        \\#^^^--_
-         _-^######//  (    )  \\######^-_
-        -########//   |\\^^/|   \\########-
-      _/########//    (@::@)    \\########\_
-     /#########((      \\//      ))#########\
-    -###########\\    (oo)       //###########-
-   -#############\\  / "" "" \\  //#############-
-  -###############\\/  (\\/)  \\//###############-
-_#/|######/\\######(   (/^^\\)   )######/\\######|\\#_
-|/  |/  |/  |/  |/  |(  |/  \\|  )|  |/  |/  |/  |/";
+            dragon.Image = @"               __====-_  _-====___
+            _--^^^#//       \\#^^^--_ 
+         _-^######//  (   )  \\######^-_
+        -########//  |\\^^/|  \\########-
+      _/########//   (@::@)    \\########\_
+     /#########((     \\//      ))#########\
+    -###########\\    (oo)     //###########-
+   -############\\  / "" "" \\  //#############-
+  -##############\\/ (\\/) \\//###############-
+_#/|#####/\\######(  (/^^\\) )######/\\######|\\#_
+|/  |/  |/   |/  | ( |/  \| )|  |/  |/  |/  |/";
+
+
+
 
         }
 
@@ -135,12 +139,12 @@ _#/|######/\\######(   (/^^\\)   )######/\\######|\\#_
                     }
                     else if (select == 1)
                     {
-                        DungeonView(skeleton, player);
+                        ShowDungeon(skeleton, player);
 
                     }
                     else if (select == 2)
                     {
-                        DungeonView(dragon, player);
+                        ShowDungeon(dragon, player);
 
                     }
                     else
@@ -160,7 +164,7 @@ _#/|######/\\######(   (/^^\\)   )######/\\######|\\#_
 
         }
 
-        public void DungeonView(Monster monster,Player player)
+        public void ShowDungeon(Monster monster,Player player)
         {
             while(true)
             {
@@ -274,11 +278,11 @@ _#/|######/\\######(   (/^^\\)   )######/\\######|\\#_
                             int monsterDamage = monster.TakeDamage(player.PlayerStatus.Def);
                             int playerDamage = player.CriticalTakeDamage(monster.MonsterStatus.Def);
 
-                            Console.SetCursorPosition(34, 4);
+                            Console.SetCursorPosition(48, 4);
                             battleDescription = $"{player.PlayerStatus.Name} 의 치명타 공격!";
                             TextOutput(battleDescription);
 
-                            Console.SetCursorPosition(34, 5);
+                            Console.SetCursorPosition(48, 5);
                             battleDescription = $"{monster.MonsterStatus.Name} 은 {playerDamage}의 피해를 입었다.";
                             TextOutput(battleDescription);
                             Console.WriteLine();
@@ -287,12 +291,12 @@ _#/|######/\\######(   (/^^\\)   )######/\\######|\\#_
 
                             if (monster.MonsterStatus.Hp > 0)
                             {
-                                Console.SetCursorPosition(34, 7);
+                                Console.SetCursorPosition(48, 7);
                                 battleDescription = $"{monster.MonsterStatus.Name}의 공격!";
                                 TextOutput(battleDescription);
                                 Console.WriteLine();
 
-                                Console.SetCursorPosition(34, 8);
+                                Console.SetCursorPosition(48, 8);
                                 battleDescription = $"{player.PlayerStatus.Name} 은 {monsterDamage}의 피해를 입었다.";
                                 TextOutput(battleDescription);
                                 Console.WriteLine();
