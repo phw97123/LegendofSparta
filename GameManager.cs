@@ -39,13 +39,14 @@ namespace LegendofSparta.GameManger
                       | $$                                              
                       | $$                                              
                       |__/                                              
-                                                                           의 전설
+                                                    의 전설
 
 
+                             아무 키나 눌러서 실행
 
             ");
 
-            Console.WriteLine("                      아무 키나 눌러서 실행     ");
+            Console.WriteLine("                        ");
             Console.ReadKey();
 
             CreateCharacter(); 

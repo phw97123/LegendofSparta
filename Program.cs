@@ -7,7 +7,7 @@ namespace LegendofSparta
     {
         static void Main(string[] args)
         {
-            //Console.SetWindowSize(42, 32);
+            Console.SetWindowSize(80, 30);
            // Console.Clear(); 
             GameManager game = new GameManager();
             game.Run();
