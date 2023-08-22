@@ -511,6 +511,10 @@ namespace LegendofSparta.PlayerClass
                     PlayerStatus.Level+=1;
                     PlayerStatus.Exp = 0;
                     PlayerStatus.MaxExp += 20;
+                    PlayerStatus.MaxHp += 20;
+                    PlayerStatus.MaxMp += 20;
+                    PlayerStatus.Atk += 5;
+                    PlayerStatus.Def += 5;
                     PlayerStatus.Exp += remaining;
                     Console.WriteLine($"{PlayerStatus.Name}의 레벨이 1 올랐다"); 
                 }

@@ -31,21 +31,21 @@ namespace LegendofSparta.GameManger
         {
             Console.WriteLine(@"
 
-                                                       /$$              
-                                                      | $$              
-              /$$$$$$$  /$$$$$$   /$$$$$$   /$$$$$$  /$$$$$$    /$$$$$$ 
-             /$$_____/ /$$__  $$ |____  $$ /$$__  $$|_  $$_/   |____  $$
-            |  $$$$$$ | $$  \ $$  /$$$$$$$| $$  \__/  | $$      /$$$$$$$
-             \____  $$| $$  | $$ /$$__  $$| $$        | $$ /$$ /$$__  $$5
-             /$$$$$$$/| $$$$$$$/|  $$$$$$$| $$        |  $$$$/|  $$$$$$$5
-            |_______/ | $$____/  \_______/|__/         \___/   \_______/
-                      | $$                                              
-                      | $$                                              
-                      |__/                                              
+                                                     /$$              
+                                                    | $$              
+            /$$$$$$$  /$$$$$$   /$$$$$$   /$$$$$$  /$$$$$$    /$$$$$$ 
+           /$$_____/ /$$__  $$ |____  $$ /$$__  $$|_  $$_/   |____  $$
+          |  $$$$$$ | $$  \ $$  /$$$$$$$| $$  \__/  | $$      /$$$$$$$
+           \____  $$| $$  | $$ /$$__  $$| $$        | $$ /$$ /$$__  $$5
+           /$$$$$$$/| $$$$$$$/|  $$$$$$$| $$        |  $$$$/|  $$$$$$$5
+          |_______/ | $$____/  \_______/|__/         \___/   \_______/
+                    | $$                                              
+                    | $$                                              
+                    |__/                                              
                                                     의 전설
 
 
-                             아무 키나 눌러서 실행...
+                           아무 키나 눌러서 실행...
 
             ");
 
@@ -98,16 +98,26 @@ namespace LegendofSparta.GameManger
                 string? answer = Console.ReadLine();
                 if (answer == "y" || answer == "y")
                 {
-                    Console.Clear();
-                    Console.WriteLine(); 
-                    TextOutput(" 캐릭터 생성 중...");
-                    Thread.Sleep(500);
-                    TextOutput(" 캐릭터 생성 완료 !");
-                    Thread.Sleep(500);
-                    TextOutput(" 마을로 들어가는 중...");
-                    Thread.Sleep(1000);
-                    VillageScene();
-                    break;
+                    if(answer =="")
+                    {
+                        Console.WriteLine("이름이 없습니다 이름을 입력해주세요.");
+                        Thread.Sleep(500);
+                        break; 
+                    }
+                    else
+                    {
+                        Console.Clear();
+                        Console.WriteLine();
+                        TextOutput(" 캐릭터 생성 중...");
+                        Thread.Sleep(500);
+                        TextOutput(" 캐릭터 생성 완료 !");
+                        Thread.Sleep(500);
+                        TextOutput(" 마을로 들어가는 중...");
+                        Thread.Sleep(1000);
+                        VillageScene();
+                        break;
+                    }
+                   
                 }
                 else if (answer == "n" || answer == "N")
                 {
@@ -154,7 +164,7 @@ namespace LegendofSparta.GameManger
                 Console.WriteLine("  2.인벤토리");
                 Console.WriteLine("  3.상점");
                 Console.WriteLine("  4.던전");
-                Console.WriteLine("  5.병원");
+                Console.WriteLine("  5.회복센터");
                 Console.WriteLine();
                 Console.Write(">>");
 
@@ -167,26 +177,26 @@ namespace LegendofSparta.GameManger
                     switch (select)
                     {
                         case 1:
-                            Console.WriteLine("상태창");
+                           // Console.WriteLine("상태창");
                             player.ShowStatus();
                             break;
 
                         case 2:
-                            Console.WriteLine("인벤토리");
+                           // Console.WriteLine("인벤토리");
                             player.ShowInventory();
                             break;
                         case 3:
-                            Console.WriteLine("상점");
+                           // Console.WriteLine("상점");
                             store.StartStroe(player);
                             break;
 
                         case 4:
-                            Console.WriteLine("던전");
+                           // Console.WriteLine("던전");
                             dungeon.DungeonDescription(player);
                             break;
 
                         case 5:
-                            Console.WriteLine("병원");
+                           // Console.WriteLine("회복센터");
                             ShowRest(); 
                             break;
 
@@ -270,10 +280,10 @@ namespace LegendofSparta.GameManger
 
 
 
-                               [휴식]
+                               [회복센터]
 
-               여기는 지친 몸과 마음을 힐링하는 장소입니다
-
+                  300G 로 지친 몸과 마음을 회복하고 가세요 
+                        
                          0.나가기  1.휴식하기
 ";
 
@@ -293,10 +303,17 @@ namespace LegendofSparta.GameManger
                     {
                        if(player.PlayerStatus.Hp == player.PlayerStatus.MaxHp && player.PlayerStatus.Mp == player.PlayerStatus.MaxMp)
                        {
+                            Console.WriteLine("엄살이네요");
                             Console.WriteLine("휴식할 필요가 없습니다.");
-                            Thread.Sleep(500);
+                            Thread.Sleep(800);
                             break; 
                        }
+                       else if(player.PlayerStatus.Gold <300)
+                       {
+                            Console.WriteLine("돈이 없다면 회복할 수 없습니다");
+                            Thread.Sleep(800);
+                            break; 
+                        }
                        else
                        {
                            for(int i = 0; i<3; i++)
@@ -304,11 +321,14 @@ namespace LegendofSparta.GameManger
                                 Console.Clear();
                                 Console.WriteLine(); 
                                 TextOutput(" 회복중...");
+                                Console.WriteLine(" -100G");
                                 Thread.Sleep(500);
                            }
 
                             player.PlayerStatus.Hp = player.PlayerStatus.MaxHp; 
                             player.PlayerStatus.Mp = player.PlayerStatus.MaxMp;
+
+                            player.PlayerStatus.Gold -= 300; 
 
                             player.ShowStatus();
                             break;
