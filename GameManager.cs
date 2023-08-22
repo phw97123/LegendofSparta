@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
+using LegendofSparta.MonsterClass;
 using LegendofSparta.PlayerClass; 
 
 namespace LegendofSparta.GameManger
@@ -12,6 +13,7 @@ namespace LegendofSparta.GameManger
      {
         Player player = new Player();
         Store store = new Store();
+        Dungeon dungeon = new Dungeon();
 
         public void TextOutput(string text)
         {
@@ -42,7 +44,7 @@ namespace LegendofSparta.GameManger
                                                     의 전설
 
 
-                             아무 키나 눌러서 실행
+                             아무 키나 눌러서 실행...
 
             ");
 
@@ -133,8 +135,21 @@ namespace LegendofSparta.GameManger
         {
             while(true)
             {
-                Console.Clear();
+                
+                if (player.PlayerStatus.Hp <= 0)
+                {
+                    PlayerDie(); 
+                    player.PlayerStatus.Hp = (int)(player.PlayerStatus.MaxHp * 0.1);
+                }
+                else if(player.bVictory == true)
+                {
+                    PlayerVictory(player.victoryMonster);
+                    player.bVictory = false;
+                    player.victoryMonster = "";
+                }
 
+
+                Console.Clear();
                 Console.WriteLine($"안녕하세요 {player.PlayerStatus.Name}님");
                 Console.WriteLine("여기는 전설이 되기 위해 많은 모험가들이 모이는 마을입니다");
                 Console.WriteLine("이곳에서 전설이 되기 위해 준비의 준비를 하세요");
@@ -145,6 +160,7 @@ namespace LegendofSparta.GameManger
                 Console.WriteLine("1.상태창");
                 Console.WriteLine("2.인벤토리");
                 Console.WriteLine("3.상점");
+                Console.WriteLine("4.던전"); 
                 Console.WriteLine();
                 Console.WriteLine();
                 Console.WriteLine("원하는 행동을 입력해주세요.");
@@ -172,6 +188,11 @@ namespace LegendofSparta.GameManger
                             store.StartStroe(player);
                             break; 
 
+                        case 4:
+                            Console.WriteLine("던전");
+                            dungeon.DungeonDescription(player);
+                            break;
+
                         default:
                             Console.WriteLine("잘못된 입력입니다.");
                             bValid = false;
@@ -187,13 +208,68 @@ namespace LegendofSparta.GameManger
             }
         }
 
+
+        void PlayerDie()
+        {
+            Console.Clear();
+            Console.WriteLine(@"
+
+
+
+
+
+
+ /$$     /$$ /$$$$$$  /$$   /$$       /$$$$$$$  /$$$$$$ /$$$$$$$$ /$$$$$$$            
+|  $$   /$$//$$__  $$| $$  | $$      | $$__  $$|_  $$_/| $$_____/| $$__  $$           
+ \  $$ /$$/| $$  \ $$| $$  | $$      | $$  \ $$  | $$  | $$      | $$  \ $$           
+  \  $$$$/ | $$  | $$| $$  | $$      | $$  | $$  | $$  | $$$$$   | $$  | $$           
+   \  $$/  | $$  | $$| $$  | $$      | $$  | $$  | $$  | $$__/   | $$  | $$           
+    | $$   | $$  | $$| $$  | $$      | $$  | $$  | $$  | $$      | $$  | $$           
+    | $$   |  $$$$$$/|  $$$$$$/      | $$$$$$$/ /$$$$$$| $$$$$$$$| $$$$$$$/ 
+    |__/    \______/  \______/       |_______/ |______/|________/|_______/  
+             
+
+
+                          아무 키나 눌러서 부활...
+");
+            Console.ReadKey();
+        }
+
+        void PlayerVictory(string monsterName)
+        {
+            Console.Clear();
+            Console.WriteLine(@"
+
+
+
+
+ /$$    /$$ /$$$$$$  /$$$$$$  /$$$$$$$$ /$$$$$$  /$$$$$$$  /$$     /$$     /$$
+| $$   | $$|_  $$_/ /$$__  $$|__  $$__//$$__  $$| $$__  $$|  $$   /$$/    | $$
+| $$   | $$  | $$  | $$  \__/   | $$  | $$  \ $$| $$  \ $$ \  $$ /$$/     | $$
+|  $$ / $$/  | $$  | $$         | $$  | $$  | $$| $$$$$$$/  \  $$$$/      | $$
+ \  $$ $$/   | $$  | $$         | $$  | $$  | $$| $$__  $$   \  $$/       |__/
+  \  $$$/    | $$  | $$    $$   | $$  | $$  | $$| $$  \ $$    | $$              
+   \  $/    /$$$$$$|  $$$$$$/   | $$  |  $$$$$$/| $$  | $$    | $$         /$$
+    \_/    |______/ \______/    |__/   \______/ |__/  |__/    |__/        |__/
+                                                                                
+                            {0}을 처치하였습니다 !  
+
+
+                             아무 키나 눌러서 계속... 
+                                                                                
+",monsterName);
+            Console.ReadKey();
+        }
+
+
         public void Run()
         {
             GameStartScene();
             //CreateCharacter(); 
             //player.ShowInventory(); 
             //player.ShowStatus(); 
-            
+            //dungeon.DungeonDescription(player);
+            //PlayerVictory("스켈레톤"); 
         }
      }
 }

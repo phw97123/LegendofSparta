@@ -18,7 +18,10 @@ namespace LegendofSparta.PlayerClass
      {
         public Status PlayerStatus;
         public List<Item> Inventory;
-        public int itemLimit = 5; 
+        public int itemLimit = 5;
+
+        public bool bVictory = false;
+        public string victoryMonster = ""; 
 
         public Item? equipWeapon { get; set; }
         public Item? equipHead { get; set; }
@@ -31,10 +34,10 @@ namespace LegendofSparta.PlayerClass
 
             //기본 스탯
             PlayerStatus.Level = 1;
-            PlayerStatus.Hp = 200; 
-            PlayerStatus.MaxHp = 200;
-            PlayerStatus.Mp = 100; 
-            PlayerStatus.MaxMp = 100;
+            PlayerStatus.Hp = 100; 
+            PlayerStatus.MaxHp = 100;
+            PlayerStatus.Mp = 50; 
+            PlayerStatus.MaxMp = 50;
             PlayerStatus.Atk = 20;
             PlayerStatus.Def = 15;
             PlayerStatus.Gold = 1000; 
@@ -471,6 +474,30 @@ namespace LegendofSparta.PlayerClass
              제일 긴 문자열의 길이에 맞춰 출력하고 한글의 크기랑 같은 띄어쓰기로 빈공간을 채움      
             */
 
+        }
+
+        public int TakeDamage(int monsterDef)
+        {
+            Random random = new Random();
+            int randomDamage = random.Next(PlayerStatus.Atk-5, PlayerStatus.Atk+5);
+
+            int actualAtk = randomDamage - monsterDef;
+            actualAtk = Math.Max(actualAtk, 0);
+
+            return actualAtk; 
+        }
+
+        public int CriticalTakeDamage(int monsterDef)
+        {
+            PlayerStatus.Mp -= 10; 
+
+            Random rand = new Random();
+            int randomDamage = rand.Next(PlayerStatus.Atk + 30, PlayerStatus.Atk+50);
+
+            int actualAtk = randomDamage - monsterDef;
+            actualAtk = Math.Max(actualAtk, 0); 
+
+            return actualAtk;
         }
     }
 }
