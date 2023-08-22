@@ -53,19 +53,31 @@ namespace LegendofSparta
             dragon.MonsterStatus.MaxHp = 300;
             dragon.MonsterStatus.Atk = 40;
             dragon.MonsterStatus.Def = 50;
-            dragon.Reward = 3000; 
-            dragon.Image = @"                      __====-_  _-====___
-                _--^^^#####//      \\#####^^^--_
-             _-^##########// (    ) \\##########^-_
-            -############//  |\^^/|  \\############-
-          _/############//   (@::@)   \\############\_
-         /#############((     \\//     ))#############\
-        -###############\\    (oo)    //###############-
-      -#################\\  / "" "" \  //#################-
-     -###################\\/  (\\/)  \//###################-
-    _#/|##########/\######(   (/^^\)   )######/\##########|\#_
-     |/  |/  |/  |/  |/  |(  |/  \|  )|  |/  |/  |/  |/  |/  |/
-";
+            dragon.Reward = 3000;
+            //            dragon.Image = @"                      __====-_  _-====___
+            //                _--^^^#####//      \\#####^^^--_
+            //             _-^##########// (    ) \\##########^-_
+            //            -############//  |\^^/|  \\############-
+            //          _/############//   (@::@)   \\############\_
+            //         /#############((     \\//     ))#############\
+            //        -###############\\    (oo)    //###############-
+            //      -#################\\  / "" "" \  //#################-
+            //     -###################\\/  (\\/)  \//###################-
+            //    _#/|##########/\######(   (/^^\)   )######/\##########|\#_
+            //     |/  |/  |/  |/  |/  |(  |/  \|  )|  |/  |/  |/  |/  |/  |/
+            //";
+
+            dragon.Image = @"                __====-_  _-====___
+            _--^^^#//        \\#^^^--_
+         _-^######//  (    )  \\######^-_
+        -########//   |\\^^/|   \\########-
+      _/########//    (@::@)    \\########\_
+     /#########((      \\//      ))#########\
+    -###########\\    (oo)       //###########-
+   -#############\\  / "" "" \\  //#############-
+  -###############\\/  (\\/)  \\//###############-
+_#/|######/\\######(   (/^^\\)   )######/\\######|\\#_
+|/  |/  |/  |/  |/  |(  |/  \\|  )|  |/  |/  |/  |/";
 
         }
 
@@ -78,6 +90,10 @@ namespace LegendofSparta
                 if (player.PlayerStatus.Hp <= 0)
                 {
                     break;
+                }
+                else if (player.bVictory == true)
+                {
+                    break; 
                 }
 
                 Console.WriteLine();
@@ -209,11 +225,11 @@ namespace LegendofSparta
                         int monsterDamage = monster.TakeDamage(player.PlayerStatus.Def);
                         int playerDamage = player.TakeDamage(monster.MonsterStatus.Def);
 
-                        Console.SetCursorPosition(34, 4);
+                        Console.SetCursorPosition(48, 4);
                         battleDescription = $"{player.PlayerStatus.Name} 의 공격!";
                         TextOutput(battleDescription);
 
-                        Console.SetCursorPosition(34, 5);
+                        Console.SetCursorPosition(48, 5);
                         battleDescription = $"{monster.MonsterStatus.Name} 은 {playerDamage}의 피해를 입었다.";
                         TextOutput(battleDescription);
                         Console.WriteLine();
@@ -222,19 +238,19 @@ namespace LegendofSparta
 
                         if(monster.MonsterStatus.Hp > 0)
                         {
-                            Console.SetCursorPosition(34, 7);
+                            Console.SetCursorPosition(48, 7);
                             battleDescription = $"{monster.MonsterStatus.Name}의 공격!";
                             TextOutput(battleDescription);
                             Console.WriteLine();
 
-                            Console.SetCursorPosition(34, 8);
+                            Console.SetCursorPosition(48, 8);
                             battleDescription = $"{player.PlayerStatus.Name} 은 {monsterDamage}의 피해를 입었다.";
                             TextOutput(battleDescription);
                             Console.WriteLine();
 
                             player.PlayerStatus.Hp -= monsterDamage;
 
-                            Thread.Sleep(1500);
+                            Thread.Sleep(1200);
                         }
                     }
                     else if (select == 2)

@@ -88,18 +88,18 @@ namespace LegendofSparta.GameManger
 
             while (true)
             {
-                Console.Clear(); 
+                Console.Clear();
 
                 Console.WriteLine("이 이름으로 하시겠습니까?");
                 Console.WriteLine("┌─────────────────────────────────┐");
                 Console.WriteLine("│                                 │");
-                Console.WriteLine($"|{player.PlayerStatus.Name.PadLeft(padding + player.PlayerStatus.Name.Length).PadRight(totalWidth - 1)}|");
+                Console.WriteLine($"│{player.PlayerStatus.Name.PadLeft(padding + player.PlayerStatus.Name.Length).PadRight(totalWidth - 1)}│");
                 //-1을 한 이유는 마지막 '|' 문자를 포함하여 전체 길이에 맞게 패딩을 적용
                 Console.WriteLine("│                                 │");
-                Console.WriteLine("|              Y / N              |");
+                Console.WriteLine("│             Y / N               │");
                 Console.WriteLine("│                                 │");
                 Console.WriteLine("└─────────────────────────────────┘");
-                Console.Write(">> "); 
+                Console.Write(">> ");
 
                 string? answer = Console.ReadLine();
                 if (answer == "y" || answer == "y")
@@ -135,7 +135,6 @@ namespace LegendofSparta.GameManger
         {
             while(true)
             {
-                
                 if (player.PlayerStatus.Hp <= 0)
                 {
                     PlayerDie(); 
@@ -147,7 +146,6 @@ namespace LegendofSparta.GameManger
                     player.bVictory = false;
                     player.victoryMonster = "";
                 }
-
 
                 Console.Clear();
                 Console.WriteLine($"안녕하세요 {player.PlayerStatus.Name}님");
@@ -264,11 +262,11 @@ namespace LegendofSparta.GameManger
 
         public void Run()
         {
-            GameStartScene();
+           // GameStartScene();
             //CreateCharacter(); 
             //player.ShowInventory(); 
             //player.ShowStatus(); 
-            //dungeon.DungeonDescription(player);
+            dungeon.DungeonDescription(player);
             //PlayerVictory("스켈레톤"); 
         }
      }

@@ -140,15 +140,11 @@ namespace LegendofSparta.PlayerClass
                     {
                         if(equipWeapon == null)
                         {
-                            switch (Inventory[i].StatsType)
-                            {
-                                case STATSTYPE.Atk:
-                                    equipAtk = PlayerStatus.Atk.ToString();
-                                    break;
-                                case STATSTYPE.Def:
-                                    equipDef = PlayerStatus.Def.ToString();
-                                    break;
-                            }
+                            equipAtk = PlayerStatus.Atk.ToString();
+                        }
+                        else if(equipArmor ==null && equipHead == null)
+                        {
+                            equipDef = PlayerStatus.Def.ToString();
                         }
                         
                     }
@@ -195,9 +191,9 @@ namespace LegendofSparta.PlayerClass
                 string HPMP= $"HP {PlayerStatus.Hp}/{PlayerStatus.MaxHp}          MP {PlayerStatus.Mp}/{PlayerStatus.MaxMp}";
                 Console.WriteLine(HPMP);
                 Console.SetCursorPosition(3, 9);
-                Console.WriteLine($"공격력 {PlayerStatus.Atk}");
+                Console.WriteLine($"공격력 {equipAtk}");
                 Console.SetCursorPosition(3, 10);
-                Console.WriteLine($"방어력 {PlayerStatus.Def}");
+                Console.WriteLine($"방어력 {equipDef}");
                 Console.SetCursorPosition(3, 11);
                 Console.WriteLine($"Gold {PlayerStatus.Gold}");
                 Console.SetCursorPosition(0, 14);
@@ -469,11 +465,6 @@ namespace LegendofSparta.PlayerClass
                     Thread.Sleep(500);
                 }
             }
-            
-            /* 생각하기
-             제일 긴 문자열의 길이에 맞춰 출력하고 한글의 크기랑 같은 띄어쓰기로 빈공간을 채움      
-            */
-
         }
 
         public int TakeDamage(int monsterDef)
