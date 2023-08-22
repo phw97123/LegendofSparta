@@ -15,7 +15,9 @@ namespace LegendofSparta
          Monster skeleton;
          Monster dragon;
 
-        public void TextOutput(string text)
+        public bool bEscape = false; 
+
+         void TextOutput(string text)
         {
             for (int i = 0; i < text.Length; i++)
             {
@@ -25,6 +27,16 @@ namespace LegendofSparta
             }
             Console.WriteLine();
         }
+
+         bool TryEscape(string monsterName) //0 또는 1을 반환하여 50% 확률로 도망 
+         {
+            Random random = new Random();
+            if (monsterName == "스켈레톤")
+                return random.Next(2) == 0;
+            else
+                return random.Next(100) < 30; 
+          
+         }
         public Dungeon() 
         {
             skeleton = new Monster();
@@ -87,14 +99,16 @@ _#/|######/\\######(   (/^^\\)   )######/\\######|\\#_
             {
                 Console.Clear();
 
-                if (player.PlayerStatus.Hp <= 0)
+                if (player.PlayerStatus.Hp <= 0) //플레이어가 죽었으면
+                    break;
+                else if (player.bVictory == true) //플레이어가 이겼다면
+                    break;
+                else if (bEscape == true) //도망에 성공하였다면
                 {
+                    bEscape = false;
                     break;
                 }
-                else if (player.bVictory == true)
-                {
-                    break; 
-                }
+                   
 
                 Console.WriteLine();
                 string str = @"                               [던전]
@@ -297,7 +311,18 @@ _#/|######/\\######(   (/^^\\)   )######/\\######|\\#_
                     }
                     else if (select == 3)
                     {
-                        break;
+                        if(TryEscape(monster.MonsterStatus.Name))
+                        {
+                            Console.WriteLine("성공적으로 도망쳤습니다.");
+                            Thread.Sleep(500); 
+                            bEscape = true;
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("도망에 실패하였습니다.");
+                            Thread.Sleep(500);
+                        }
                     }
                     else
                     {

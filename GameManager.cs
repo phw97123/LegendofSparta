@@ -262,11 +262,11 @@ namespace LegendofSparta.GameManger
 
         public void Run()
         {
-           // GameStartScene();
+           GameStartScene();
             //CreateCharacter(); 
             //player.ShowInventory(); 
             //player.ShowStatus(); 
-            dungeon.DungeonDescription(player);
+            //dungeon.DungeonDescription(player);
             //PlayerVictory("스켈레톤"); 
         }
      }
