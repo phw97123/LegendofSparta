@@ -37,7 +37,7 @@ namespace LegendofSparta.PlayerClass
 
             //기본 스탯
             PlayerStatus.Level = 1;
-            PlayerStatus.Hp = 50; 
+            PlayerStatus.Hp = 100; 
             PlayerStatus.MaxHp = 100;
             PlayerStatus.Mp = 50; 
             PlayerStatus.MaxMp = 50;
