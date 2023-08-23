@@ -11,7 +11,7 @@ TextRPG 개인과제
 Visual Studio 2022
 
 ## 클래스 다이어그램
-![image](https://github.com/phw97123/LegendofSparta/assets/132995834/edb54cde-b90d-474d-837e-b0a334e1e755)
+![image](https://github.com/phw97123/LegendofSparta/assets/132995834/c739a261-1eac-4b87-ba50-26b2a377c67a)
 
 
 ## 주요기능 
