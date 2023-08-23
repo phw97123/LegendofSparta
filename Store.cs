@@ -158,7 +158,7 @@ namespace LegendofSparta
 
                 for (int i = 0; i < player.Inventory.Count; i++)
                 {
-                    Console.WriteLine($"  {i + 1}.{player.Inventory[i].Name,-25}{player.Inventory[i].StatsType,4} +{player.Inventory[i].Stats,5}");
+                    Console.WriteLine($"  {i + 1}.{player.Inventory[i].Name,-25}{player.Inventory[i].StatsType,4} +{player.Inventory[i].Stats,-5}");
                     Console.WriteLine($"   {player.Inventory[i].Description,-25}{(int)(player.Inventory[i].Price*0.5f),5}G");
                     Console.WriteLine();
                 }

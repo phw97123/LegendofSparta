@@ -165,6 +165,8 @@ namespace LegendofSparta.GameManger
                 Console.WriteLine("  3.상점");
                 Console.WriteLine("  4.던전");
                 Console.WriteLine("  5.회복센터");
+                Console.WriteLine("  6.게임종료");
+
                 Console.WriteLine();
                 Console.Write(">>");
 
@@ -199,6 +201,9 @@ namespace LegendofSparta.GameManger
                            // Console.WriteLine("회복센터");
                             ShowRest(); 
                             break;
+                        case 6:
+                            Environment.Exit(0);
+                            break; 
 
                         default:
                             Console.WriteLine("잘못된 입력입니다.");
