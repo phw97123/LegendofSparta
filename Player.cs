@@ -15,7 +15,7 @@ using System.Collections;
 namespace LegendofSparta.PlayerClass
 {
     class Player
-     {
+    {
         public Status PlayerStatus;
         public List<Item> Inventory;
         public int itemLimit = 5;
@@ -155,25 +155,6 @@ namespace LegendofSparta.PlayerClass
                     }
                 }
 
-                //totalWidth = 35; 
-
-                //string format = "┌─────────────────────────────────┐\n" +
-                //                "│                           0.닫기│\n" +
-                //                "│            [상태창]             │\n" +
-                //                "│                                 │\n" +
-                //                "│  {0,-22}Lv.{1,3:D2}   │\n" +
-                //                "│ =============================== │\n" +
-                //                "│  HP {2,-3}/{3,-13}MP {4,3}/{5,-4}│\n" +
-                //                "│  {9,-32} {10,-24}│\n" +
-                //                "│ =============================== │\n" +
-                //                "│  공격력 {6,-24}│\n" +
-                //                "│  방어력 {7,-24}│\n" +
-                //                "│   Gold  {8,-24}|\n" +
-                //                "│                                 │\n" +
-                //                "└─────────────────────────────────┘";
-
-                //Console.WriteLine(string.Format(format, PlayerStatus.Name, PlayerStatus.Level, PlayerStatus.Hp, PlayerStatus.MaxHp, PlayerStatus.Mp, PlayerStatus.MaxMp, equipAtk, equipDef, PlayerStatus.Gold + "G", hpColor, mpColor));
-
                 string format = "┌─────────────────────────────────┐\n" +
                                 "│                           0.닫기│\n" +
                                 "│            [상태창]             │\n" +
@@ -232,7 +213,8 @@ namespace LegendofSparta.PlayerClass
 
             while (true)
             {
-                switch (itemsort) //인벤토리 정렬
+                //인벤토리 정렬
+                switch (itemsort)
                 {
                     case ITEMSORT.Name:
                         Inventory = Inventory.OrderBy(item=>item.Name).ToList();
@@ -294,7 +276,8 @@ namespace LegendofSparta.PlayerClass
                     {
                         if (Inventory[i].IsEquip) //장착중
                         {
-                            if (Inventory[i] == equipWeapon || Inventory[i] == equipHead || Inventory[i] == equipArmor) //장착되어있는 아이템이 같으면
+                            //장착되어있는 아이템이 같으면
+                            if (Inventory[i] == equipWeapon || Inventory[i] == equipHead || Inventory[i] == equipArmor) 
                             {
                                 equipStr = "[E]";
                             }
@@ -369,7 +352,7 @@ namespace LegendofSparta.PlayerClass
                             {
                                 switch (Inventory[select - 1].StatsType)
                                 {
-                                    //아이템 장착해제 후 능력치 조절
+                                    //아이템 장착 해제 후 능력치 조절
                                     case STATSTYPE.Atk:
                                         PlayerStatus.Atk -= int.Parse(Inventory[select - 1].Stats);
                                         equipWeapon = null;
@@ -501,8 +484,10 @@ namespace LegendofSparta.PlayerClass
             return actualAtk;
         }
 
+        //레벨업 구현
         public void LevelUpWithExp()
         {
+            //플레이어의 경험치가 최대 경험치보다 같거나 많을 경우 레벨을 계속 올려주기 위한 반복문
             while (true)
             {
                 if (PlayerStatus.Exp >= PlayerStatus.MaxExp)
@@ -524,5 +509,6 @@ namespace LegendofSparta.PlayerClass
                 }
             }
         }
+
     }
 }

@@ -16,8 +16,9 @@ namespace LegendofSparta
 
         public bool bEscape = false; 
 
+        //한글자씩 출력해주는 함수
          void TextOutput(string text)
-        {
+         {
             for (int i = 0; i < text.Length; i++)
             {
                 string text1 = text.Substring(i, 1);
@@ -25,9 +26,10 @@ namespace LegendofSparta
                 Thread.Sleep(80);
             }
             Console.WriteLine();
-        }
+         }
 
-         bool TryEscape(string monsterName) //0 또는 1을 반환하여 50% 확률로 도망 
+        //0 또는 1을 반환하여 50% 확률로 도망 
+        bool TryEscape(string monsterName) 
          {
             Random random = new Random();
             if (monsterName == "스켈레톤")
@@ -36,6 +38,7 @@ namespace LegendofSparta
                 return random.Next(100) < 30; 
           
          }
+        //몬스터 생성
         public Dungeon() 
         {
             skeleton = new Monster();
@@ -98,6 +101,7 @@ _#/|#####/\\######(  (/^^\\) )######/\\######|\\#_
 
         }
 
+        //던전 설명 및 입장 선택
         public void DungeonDescription(Player player)
         {
             while(true)
@@ -165,10 +169,15 @@ _#/|#####/\\######(  (/^^\\) )######/\\######|\\#_
 
         }
 
+        //몬스터가 있는 실제 던전 진입
         public void ShowDungeon(Monster monster,Player player)
         {
+            //몬스터 체력 회복
             monster.MonsterStatus.Hp = monster.MonsterStatus.MaxHp;
-            int playerEnterHp = player.PlayerStatus.Hp; 
+
+            //입장할 때 플레이어의 체력
+            int playerEnterHp = player.PlayerStatus.Hp;
+
             while(true)
             {
                 string battleDescription = "";
@@ -217,11 +226,13 @@ _#/|#####/\\######(  (/^^\\) )######/\\######|\\#_
                     player.bVictory = true;
                     player.victoryMonster = monster.MonsterStatus.Name; 
 
-                    //플레이어의 남은 체력의 비율 계산 
+                    //플레이어의 남은 체력의 비율 계산으로 골드 획득
                     double playerHealthRatio = (double)playerEnterHp / player.PlayerStatus.Hp;
 
+                    //최대 감소 골드 
                     int maxDecreaseGold= 100;
                    
+                    //골드 보상 게산
                     int rewardGold = monster.RewardGold - (int)(maxDecreaseGold * playerHealthRatio);
 
                     player.PlayerStatus.Gold += rewardGold;
@@ -245,10 +256,14 @@ _#/|#####/\\######(  (/^^\\) )######/\\######|\\#_
 
                     if (select == 1)
                     {
-                        //플레이어 공격
+                        //플레이어 공격 데미지
                         int monsterDamage = monster.TakeDamage(player.PlayerStatus.Def);
+
+                        //몬스터의 공격 데미지
                         int playerDamage = player.TakeDamage(monster.MonsterStatus.Def);
 
+                        //전투 설명 출력
+                        //플레이어의 선공
                         Console.SetCursorPosition(48, 4);
                         battleDescription = $"{player.PlayerStatus.Name} 의 공격!";
                         TextOutput(battleDescription);
@@ -260,6 +275,7 @@ _#/|#####/\\######(  (/^^\\) )######/\\######|\\#_
 
                         monster.MonsterStatus.Hp -= playerDamage;
 
+                        //플레이어의 선공으로 몬스터가 죽으면 종료 
                         if(monster.MonsterStatus.Hp > 0)
                         {
                             Console.SetCursorPosition(48, 7);
@@ -277,9 +293,10 @@ _#/|#####/\\######(  (/^^\\) )######/\\######|\\#_
                             Thread.Sleep(1200);
                         }
                     }
-                    else if (select == 2)
+                    else if (select == 2) //치명타 공격
                     {
-                        if(player.PlayerStatus.Mp>0)
+                        //치명타 공격은 10의 마나를 소모하여 마나가 있는지 확인
+                        if(player.PlayerStatus.Mp>=10)
                         {
                             int monsterDamage = monster.TakeDamage(player.PlayerStatus.Def);
                             int playerDamage = player.CriticalTakeDamage(monster.MonsterStatus.Def);

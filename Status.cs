@@ -24,7 +24,7 @@ namespace LegendofSparta.StatusClass
         public int Exp { get; set; }
         public int MaxExp {  get; set; }
 
-         public Status()
+        public Status()
          { 
             Name = "Unknown";
             Level = 0;

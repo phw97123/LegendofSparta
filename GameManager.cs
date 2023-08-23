@@ -16,6 +16,7 @@ namespace LegendofSparta.GameManger
         Store store = new Store();
         Dungeon dungeon = new Dungeon();
 
+        //글자 한개씩 출력
         public void TextOutput(string text)
         {
             for (int i = 0; i < text.Length; i++)
@@ -27,6 +28,7 @@ namespace LegendofSparta.GameManger
             Console.WriteLine();
         }
 
+        //게임 타이틀 화면 
         void GameStartScene()
         {
             Console.WriteLine(@"
@@ -56,6 +58,7 @@ namespace LegendofSparta.GameManger
 
         }
 
+        //캐릭터 생성 화면
         void CreateCharacter()
         {
             Console.Clear();
@@ -74,6 +77,7 @@ namespace LegendofSparta.GameManger
             CheckCharacterCreation();
         }
 
+        //캐릭터 생성 확인 화면
         void CheckCharacterCreation()
         {
             int totalWidth = 34; // 전체 문자열 너비 
@@ -135,16 +139,17 @@ namespace LegendofSparta.GameManger
             */
         }
 
+        //마을 입장 (메인 메뉴)
         void VillageScene()
         {
             while (true)
             {
-                if (player.PlayerStatus.Hp <= 0)
+                if (player.PlayerStatus.Hp <= 0) //플레이어가 죽으면 
                 {
                     PlayerDie();
                     player.PlayerStatus.Hp = (int)(player.PlayerStatus.MaxHp * 0.1);
                 }
-                else if (player.bVictory == true)
+                else if (player.bVictory == true) //몬스터 처치 시
                 {
                     PlayerVictory(player.victoryMonster);
                     player.bVictory = false;
@@ -201,7 +206,7 @@ namespace LegendofSparta.GameManger
                            // Console.WriteLine("회복센터");
                             ShowRest(); 
                             break;
-                        case 6:
+                        case 6: //게임 종료
                             Environment.Exit(0);
                             break; 
 
@@ -220,7 +225,7 @@ namespace LegendofSparta.GameManger
             }
         }
 
-
+        //플레이어가 죽으면 나오는 화면 
         void PlayerDie()
         {
             Console.Clear();
@@ -274,7 +279,7 @@ namespace LegendofSparta.GameManger
             Console.ReadKey();
         }
 
-        //휴식 입장
+        //회복센터 입장
         void ShowRest() 
         {
             while(true)
@@ -305,15 +310,16 @@ namespace LegendofSparta.GameManger
                         break;
                     }
                     else if (select == 1)
-                    {
-                       if(player.PlayerStatus.Hp == player.PlayerStatus.MaxHp && player.PlayerStatus.Mp == player.PlayerStatus.MaxMp)
+                    {  
+                        //플레이어의 회복이 필요없다면
+                       if(player.PlayerStatus.Hp == player.PlayerStatus.MaxHp && player.PlayerStatus.Mp == player.PlayerStatus.MaxMp) 
                        {
                             Console.WriteLine("엄살이네요");
                             Console.WriteLine("휴식할 필요가 없습니다.");
                             Thread.Sleep(800);
                             break; 
                        }
-                       else if(player.PlayerStatus.Gold <300)
+                       else if(player.PlayerStatus.Gold <300) //돈이 부족하다면
                        {
                             Console.WriteLine("돈이 없다면 회복할 수 없습니다");
                             Thread.Sleep(800);
@@ -321,6 +327,7 @@ namespace LegendofSparta.GameManger
                         }
                        else
                        {
+                            //회복 중 
                            for(int i = 0; i<3; i++)
                            {
                                 Console.Clear();
@@ -330,11 +337,13 @@ namespace LegendofSparta.GameManger
                                 Thread.Sleep(500);
                            }
 
+                           //회복 완료 
                             player.PlayerStatus.Hp = player.PlayerStatus.MaxHp; 
                             player.PlayerStatus.Mp = player.PlayerStatus.MaxMp;
 
                             player.PlayerStatus.Gold -= 300; 
 
+                            //상태창 보여주기
                             player.ShowStatus();
                             break;
                        }
@@ -357,6 +366,7 @@ namespace LegendofSparta.GameManger
 
         }
 
+        //게임 시작
         public void Run()
         {
              GameStartScene();

@@ -8,16 +8,19 @@ using System.Xml.Linq;
 
 namespace LegendofSparta.ItemClass
 {
+    //아이템 타입
     enum ITEMTYPE
     {
         Weapon, Head, Armor, Gold
     }
 
+    //스탯 타입
     enum STATSTYPE
     {
         Atk,Def,Gold
     }
 
+    //아이템 정렬 기준
     public enum ITEMSORT
     {
         Name,Equip,Atk,Def,Price

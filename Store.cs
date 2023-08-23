@@ -16,6 +16,7 @@ namespace LegendofSparta
        
         public Store()
         {
+            //아이템 생성 및 추가
             StoreItem = new List<Item>();
             Item spartaSword = new Item(ITEMTYPE.Weapon, "스파르타인의 대검", STATSTYPE.Atk, "30", "이 검이라면 전설에 가까워질듯 하다", 3000, false);
             Item spartaHead = new Item(ITEMTYPE.Head, "스파르타인의 투구", STATSTYPE.Def, "30", "이 투구만 있다면 나도 전설이다", 3000, false);
@@ -27,6 +28,7 @@ namespace LegendofSparta
             StoreItem.Add(GoldCopy);
         }
 
+       //상점 입장 화면 
         public void StartStroe(Player player)
         {
             while(true)
@@ -74,6 +76,7 @@ namespace LegendofSparta
             
         }
 
+        //상점 구매 탭
         public void ShowPurchase(Player player)
         {
             while(true)
@@ -104,8 +107,9 @@ namespace LegendofSparta
                     {
                         break;
                     }
-                    else if(select != 0  && select <= StoreItem.Count)
+                    else if(select != 0  && select <= StoreItem.Count) //상점에 있는 아이템을 선택
                     {
+                        //돈이 부족하지 않고, 골드를 더 해주는 치트키 아이템이 아니고, 인벤토리에 빈 슬롯이 있다면
                         if (StoreItem[select-1].Price<=player.PlayerStatus.Gold && StoreItem[select-1].ItemType != ITEMTYPE.Gold && player.Inventory.Count < player.itemLimit)
                         {
                             player.PlayerStatus.Gold -= StoreItem[select - 1].Price;
@@ -113,6 +117,7 @@ namespace LegendofSparta
                             StoreItem.RemoveAt(select-1);
                             Console.WriteLine("구매완료");
                         }
+                        //아이템 타입이 골드 타입이라면 
                         else if(StoreItem[select - 1].ItemType == ITEMTYPE.Gold)
                         {
                             player.PlayerStatus.Gold += int.Parse(StoreItem[select - 1].Stats);
@@ -143,12 +148,11 @@ namespace LegendofSparta
             }
         }
 
+        //상점 판매 탭
         public void ShowSale(Player player)
         {
             while(true)
-            {
-                
-
+            { 
                 Console.Clear();
 
                 Console.WriteLine();
@@ -176,15 +180,16 @@ namespace LegendofSparta
                     {
                         break;
                     }
-                    else if (select != 0 && select <= player.Inventory.Count)
+                    else if (select != 0 && select <= player.Inventory.Count) //아이템 선택시
                     {
-                        if (player.Inventory[select-1] == player.equipArmor || player.Inventory[select - 1] == player.equipHead|| player.Inventory[select - 1] == player.equipWeapon) 
+                        if (player.Inventory[select-1] == player.equipArmor || player.Inventory[select - 1] == player.equipHead|| player.Inventory[select - 1] == player.equipWeapon) //장착된 아이템이면 판매 불가
                         {
                             Console.WriteLine("장착중인 아이템은 판매를 할 수 없습니다.");
                             Thread.Sleep(500); 
                         }
                         else
-                        {
+                        { 
+                            // 구매 가격의 50% 판매 가능
                             player.PlayerStatus.Gold += (int)(player.Inventory[select - 1].Price*0.5f);
                             StoreItem.Add(player.Inventory[select - 1]);
                             player.Inventory.RemoveAt(select - 1);

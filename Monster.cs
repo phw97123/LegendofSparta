@@ -16,6 +16,15 @@ namespace LegendofSparta.MonsterClass
 
         public int RewardGold { get; set; }
         public int RewardExp { get; set; }
+
+        internal Dungeon Dungeon
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
         public Monster() 
         {
             MonsterStatus = new Status();
