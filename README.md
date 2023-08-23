@@ -12,6 +12,8 @@ Visual Studio 2022
 
 ## 클래스 다이어그램
 
+![1](https://github.com/phw97123/LegendofSparta/assets/132995834/e164b0be-9870-4115-afde-1d593b53c2f0)
+
 ![제목 없음](https://github.com/phw97123/LegendofSparta/assets/132995834/054caed1-2b11-4d24-b4e5-1960d46e53b9)
 
 
