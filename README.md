@@ -17,7 +17,7 @@ Visual Studio 2022
 ![제목 없음](https://github.com/phw97123/LegendofSparta/assets/132995834/054caed1-2b11-4d24-b4e5-1960d46e53b9)
 
 ## 플레이 영상
-[!TextRPG LegendofSparta](http://img.youtube.com/vi/6npRoaaJjTg/0.jpg)(https://youtu.be/6npRoaaJjTg)
+[[!TextRPG LegendofSparta](http://img.youtube.com/vi/6npRoaaJjTg/0.jpg)(https://youtu.be/6npRoaaJjTg)]
 
 
 ## 주요기능 
