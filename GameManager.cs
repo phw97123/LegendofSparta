@@ -6,15 +6,64 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
 using LegendofSparta.MonsterClass;
-using LegendofSparta.PlayerClass; 
+using LegendofSparta.PlayerClass;
+using System.Text.Json;
+using System.Text.RegularExpressions;
+using Newtonsoft.Json;
 
 namespace LegendofSparta.GameManger
 {
+    //직렬화
+    //저장하기
     internal class GameManager
     {
         Player player = new Player();
         Store store = new Store();
         Dungeon dungeon = new Dungeon();
+
+        public void SaveGameData()
+        {
+            //파일 이름 
+            string fileName = "_playerData.json";
+            string storeFileName = "_StoreData.json"; 
+
+            //디렉터리 경로
+            string dataPath = "D:\\C#\\LegendofSparta\\LegendofSparta\\bin\\Debug\\net6.0";
+
+          
+            //파일이름, 디렉터리 경로를 나타내는 두 개 이상의 문자열을 하나의 경로로 결합
+            string filePath = Path.Combine(dataPath, fileName);
+
+            //Json 형식의 문자열로 변환 
+            //Fomatting.Indented : 들여쓰기 하거나 사람이 읽기 쉬운 형식으로 지정하는데 사용 
+            string playerJson = JsonConvert.SerializeObject(player, Formatting.Indented);
+
+            //경로에 텍스트 저장 
+            File.WriteAllText(filePath, playerJson);
+        }
+        
+        //역직렬화
+        //불러오기
+        public void LoadGameData()
+        {
+            string fileName = "_playerData.json";
+            string dataPath = "D:\\C#\\LegendofSparta\\LegendofSparta\\bin\\Debug\\net6.0";
+           
+            string filePath = Path.Combine(dataPath, fileName);
+
+            //데이터 로드
+            //파일이 실제로 존재하는가? 
+            if (File.Exists(filePath))
+            {
+                string playerJson = File.ReadAllText(filePath);
+                player = JsonConvert.DeserializeObject<Player>(playerJson); 
+            }
+            else
+            {
+                Console.WriteLine("데이터가 없습니다.");
+                Thread.Sleep(1500);
+            }
+        }
 
         //글자 한개씩 출력
         public void TextOutput(string text)
@@ -45,17 +94,41 @@ namespace LegendofSparta.GameManger
                     | $$                                              
                     |__/                                              
                                                     의 전설
+            
 
-
-                           아무 키나 눌러서 실행...
+                          1.게임시작
+                          2.불러오기
 
             ");
 
             Console.WriteLine("                        ");
-            Console.ReadKey();
+            Console.Write(">> "); 
 
-            CreateCharacter();
+            string? answer = Console.ReadLine();
+            int select;
+            bool bValid = int.TryParse(answer, out select);
 
+            if (bValid)
+            {
+                switch (select)
+                {
+                    case 1:
+                        player = new Player(); 
+                        CreateCharacter();
+                        break;
+                    case 2:
+                        LoadGameData();
+                        Console.Clear();
+                        Thread.Sleep(500); 
+                        Console.WriteLine("게임 불러오기 완료");
+                        VillageScene(); 
+                        break;
+                    default:
+                        Console.WriteLine("잘못된 입력입니다.");
+                        Thread.Sleep(1000);
+                        break; 
+                }
+            }
         }
 
         //캐릭터 생성 화면
@@ -170,7 +243,8 @@ namespace LegendofSparta.GameManger
                 Console.WriteLine("  3.상점");
                 Console.WriteLine("  4.던전");
                 Console.WriteLine("  5.회복센터");
-                Console.WriteLine("  6.게임종료");
+                Console.WriteLine("  6.게임저장");
+                Console.WriteLine("  0.게임종료");
 
                 Console.WriteLine();
                 Console.Write(">>");
@@ -206,7 +280,13 @@ namespace LegendofSparta.GameManger
                            // Console.WriteLine("회복센터");
                             ShowRest(); 
                             break;
-                        case 6: //게임 종료
+                        case 6:
+                            SaveGameData();
+                            Console.WriteLine("게임 저장 완료");
+                            bValid = false;
+                            Thread.Sleep(500);
+                            break; 
+                        case 0: //게임 종료
                             Environment.Exit(0);
                             break; 
 

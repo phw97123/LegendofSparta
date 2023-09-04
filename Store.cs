@@ -10,6 +10,7 @@ using LegendofSparta.PlayerClass;
 
 namespace LegendofSparta
 {
+    [Serializable]
     internal class Store
     {
         public List<Item> StoreItem;

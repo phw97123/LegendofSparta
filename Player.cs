@@ -14,6 +14,7 @@ using System.Collections;
 
 namespace LegendofSparta.PlayerClass
 {
+    [Serializable]
     class Player
     {
         public Status PlayerStatus;
@@ -36,6 +37,7 @@ namespace LegendofSparta.PlayerClass
             PlayerStatus = new Status();
 
             //기본 스탯
+            PlayerStatus.Name = ""; 
             PlayerStatus.Level = 1;
             PlayerStatus.Hp = 100; 
             PlayerStatus.MaxHp = 100;
@@ -56,20 +58,20 @@ namespace LegendofSparta.PlayerClass
             equipArmor = new Item();
 
             //초기 아이템
-            Item oldHead = new Item(ITEMTYPE.Head, "낡은투구",STATSTYPE.Def,"3", "세월이 느껴지는 투구", 300,true);
+            Item oldHead = new Item(ITEMTYPE.Head, "낡은투구", STATSTYPE.Def, "3", "세월이 느껴지는 투구", 300, true);
             Inventory.Add(oldHead);
-            
-            Item oldArmor = new Item(ITEMTYPE.Armor, "낡은갑옷",STATSTYPE.Def,"5", "세월이 느껴지는 갑옷", 300,true);
+
+            Item oldArmor = new Item(ITEMTYPE.Armor, "낡은갑옷", STATSTYPE.Def, "5", "세월이 느껴지는 갑옷", 300, true);
             Inventory.Add(oldArmor);
 
-            Item oldSword = new Item(ITEMTYPE.Weapon, "낡은검", STATSTYPE.Atk,"3", "세월이 느껴지는 검", 300,true);
+            Item oldSword = new Item(ITEMTYPE.Weapon, "낡은검", STATSTYPE.Atk, "3", "세월이 느껴지는 검", 300, true);
             Inventory.Add(oldSword);
 
-            Item oldspear= new Item(ITEMTYPE.Weapon, "낡은창", STATSTYPE.Atk, "5", "세월이 느껴지는 창", 300, false);
+            Item oldspear = new Item(ITEMTYPE.Weapon, "낡은창", STATSTYPE.Atk, "5", "세월이 느껴지는 창", 300, false);
             Inventory.Add(oldspear);
 
             //초기 아이템 장착
-            for(int i = 0; i<Inventory.Count; i++)
+            for (int i = 0; i<Inventory.Count; i++)
             {
                 if (Inventory[i].IsEquip)
                 {
