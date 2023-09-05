@@ -13,19 +13,19 @@ using Newtonsoft.Json;
 
 namespace LegendofSparta.GameManger
 {
-    //직렬화
-    //저장하기
+    
     internal class GameManager
     {
         Player player = new Player();
         Store store = new Store();
         Dungeon dungeon = new Dungeon();
 
+        //직렬화
+        //저장하기
         public void SaveGameData()
         {
             //파일 이름 
             string fileName = "_playerData.json";
-            string storeFileName = "_StoreData.json"; 
 
             //디렉터리 경로
             string dataPath = "D:\\C#\\LegendofSparta\\LegendofSparta\\bin\\Debug\\net6.0";
